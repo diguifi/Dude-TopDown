@@ -10,3 +10,17 @@ Since this was my first PyGame project, my code is a little messy (the game itse
 If you use this code and want to redistribute it, it is distributed under GPL, so just leave the header and you are free to go!
 
 Thanks for your support.
+
+# Setting up
+
+Python version 2.7
+To be able to execute the Game, must have the 'PyGame' Library, and then, execute the 'Game.py' file.
+
+- Installing PyGame:
+    - Windows:
+        - open the cmd (windows+r -> cmd)
+        - navigate to your 'Python' folder (usually at C:/Python27) and than to the 'Scripts' folder. (Ex - cd C:/Python27/Scripts)
+        - execute the command 'pip install pygame'
+    - Linux:
+        - use your package manager to install 'pip' (Ex - 'sudo apt-get install pip')
+        - run 'pip install pygame'
