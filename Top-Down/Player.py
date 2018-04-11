@@ -29,6 +29,7 @@ from Shot import shot
 from random import randint
 p = os.getcwd()
 
+#Object for the player
 class dude(pygame.sprite.Sprite):
     def __init__(self,spriteP,spriteShot):
         pygame.sprite.Sprite.__init__(self)
@@ -49,7 +50,7 @@ class dude(pygame.sprite.Sprite):
         self.ammo = AMMO_PLAYER
         self.shield_on = False
         self.secondsLeft = 0
-        #animaçao
+        #Animation attributes
         self.contCont = 0
         self.animCont = 0
         self.QUANT_IMAGES = 4
@@ -62,10 +63,11 @@ class dude(pygame.sprite.Sprite):
 
     def getLife(self):
         return self.life
-    
+
+    #Reads sprites
     def animation(self):
         global p
-        #lendo as imagens dos personagens para direita...
+        #Reading player sprites going right...
         for i in range(self.QUANT_IMAGES):
          image = pygame.image.load(p+'/images/sprites/dude/dudeD'+str(i)+'.png').convert_alpha()
          x,y = pygame.Surface.get_width(image), pygame.Surface.get_height(image)
@@ -74,7 +76,7 @@ class dude(pygame.sprite.Sprite):
          image = pygame.transform.scale(image,(x,y))        
          self.listDudeRight.append(image)
           
-        #lendo as imagens dos personagens andando para esquerda...
+        #Reading player sprites going left...
         for i in range(self.QUANT_IMAGES):
          image = pygame.image.load(p+'/images/sprites/dude/dudeE'+str(i)+'.png').convert_alpha()
          x,y = pygame.Surface.get_width(image), pygame.Surface.get_height(image)
@@ -84,7 +86,7 @@ class dude(pygame.sprite.Sprite):
          self.listDudeLeft.append(image)
          
          
-        #lendo as imagens dos personagens andando para cima...
+        #Reading player sprites going up...
         for i in range(self.QUANT_IMAGES):
          image = pygame.image.load(p+'/images/sprites/dude/dude_shD'+str(i)+'.png').convert_alpha()
          x,y = pygame.Surface.get_width(image), pygame.Surface.get_height(image)
@@ -94,7 +96,7 @@ class dude(pygame.sprite.Sprite):
          self.listDudeShRight.append(image)
          
           
-        #lendo as imagens dos personagens andando para baixo...
+        #Reading player sprites going down...
         for i in range(self.QUANT_IMAGES):
          image = pygame.image.load(p+'/images/sprites/dude/dude_shE'+str(i)+'.png').convert_alpha()
          x,y = pygame.Surface.get_width(image), pygame.Surface.get_height(image)
@@ -103,6 +105,7 @@ class dude(pygame.sprite.Sprite):
          image = pygame.transform.scale(image,(x,y))
          self.listDudeShLeft.append(image)
 
+    #Resets for next level
     def reset(self):
         self.image = self.spriteInicial
         self.X = randint(self.sizeX,LARGURA/2)
@@ -117,6 +120,7 @@ class dude(pygame.sprite.Sprite):
         self.shield_on = False
         self.secondsLeft = 0
 
+    #Tests if shot hit any enemy
     def testCollisionShot(self,shot,enemy,time_passed):
         pts = time_passed/2
         tam=len(enemy)
@@ -126,6 +130,7 @@ class dude(pygame.sprite.Sprite):
                 self.pontos += pts
             x+=1
 
+    #Tests if enemy hit player
     def testCollision(self,enemy,time_passed,dead_sound):
         dano = time_passed/3
         if not self.shield_on:
@@ -134,6 +139,7 @@ class dude(pygame.sprite.Sprite):
                 if self.life<2:
                     dead_sound.play()
 
+    #Manages the life bar
     def lifeBar(self,screen):
         self.barGreen = float(self.life)/float(LIFE_PLAYER)
         self.barRed = ((float(LIFE_PLAYER)-float(self.life))/float(LIFE_PLAYER))*(-1)
@@ -146,25 +152,27 @@ class dude(pygame.sprite.Sprite):
             else:
                 pygame.draw.rect(screen, VERMELHO, (self.X-5,self.Y-12,40,10), 0)
 
+    #Activates a power
     def activatePower(self,sprite,tipo):
         if tipo == "shield":
             self.changeSprite(sprite)
             self.secondsLeft = SHIELD_TIME
             self.shield_on = True
 
+    #Manages changes by getting the shield
     def onShield(self,sprite):
         self.secondsLeft -= 1
         if self.secondsLeft <= 0:
             self.shield_on = False
             self.changeSprite(sprite)
             
-
+    #Changes sprite
     def changeSprite(self,sprite):
         self.image = sprite
         self.rect = self.image.get_rect()
         self.rect.topleft = (self.X, self.Y)
         
-    
+    #Main game function for the player
     def update(self,xis,yps,screen,time_passed,spr,cont,lista_inimigos,shot_x,shot_y,dead_sound):
         time_passed_seconds = time_passed/1000.0
         distance_moved = time_passed_seconds * self.speed #Distancia = tempo * velocidade

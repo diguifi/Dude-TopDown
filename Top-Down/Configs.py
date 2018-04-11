@@ -26,7 +26,7 @@ import os
 
 p = os.getcwd()
 
-#CONFIGS DO PLAYER
+#PLAYER CONFIGS
 SPEED_PLAYER = 150
 LIFE_PLAYER = 1000
 AMMO_PLAYER = 25
@@ -38,7 +38,7 @@ SPRITE_PLAYER_SH = p+'/images/sprites/dude/dude_shE0.png'
 SPRITE_SHOT = p+'/images/sprites/shot.png'
 SPRITE_AMMO = p+'/images/sprites/ammo.png'
 
-#CONFIGS DOS INIMIGOS
+#ENEMIES CONFIGS
 SPEED_ENEMY = 100
 LIFE_ENEMY = 600
 MUTATION_RATE = 0.01
@@ -51,7 +51,7 @@ SPRITE_ENEMY5 = p+'/images/sprites/enemy5.png'
 SPRITE_ENEMYC = p+'/images/sprites/enemyc.png'
 SPRITE_ENEMY_SH = p+'/images/sprites/enemy_sh.png'
 
-#CONFIGS DO MAPA
+#MAP CONFIGS
 ICONE = p+'/images/sprites/icon.png'
 BACKGROUND = p+'/images/bg/dungeon2.png'
 SPRITE_SHIELD = p+'/images/sprites/shield.png'
@@ -69,12 +69,12 @@ MULT_TAM = 1.5
 BONUS_AMMO = 25
 BONUS_HEALTH = 500
 BONUS_POINTS = 500
-ALTURA = 480          #Colisao
-LARGURA = 940         #Colisao
-ALTURA2 = 540         #Tela
-LARGURA2 = 940        #Tela
+ALTURA = 480          #Colision
+LARGURA = 940         #Colision
+ALTURA2 = 540         #Screen
+LARGURA2 = 940        #Screen
 
-#CONFIGS CORES
+#COLORS CONFIGS
 BRANCO = (255, 255, 255)
 PRETO = (0, 0, 0)
 VERMELHO = (255, 0, 0)

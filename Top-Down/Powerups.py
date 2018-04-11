@@ -27,6 +27,7 @@ from pygame.locals import *
 from Configs import *
 from random import randint
 
+#Ammo object
 class ammobox(pygame.sprite.Sprite):
     def __init__(self,spriteA):
         pygame.sprite.Sprite.__init__(self)
@@ -44,6 +45,7 @@ class ammobox(pygame.sprite.Sprite):
         self.Y = randint(self.sizeY,ALTURA-44)
         self.rect.topleft = (self.X, self.Y)
 
+#Health object
 class Health(pygame.sprite.Sprite):
     def __init__(self,spriteH):
         pygame.sprite.Sprite.__init__(self)
@@ -61,6 +63,7 @@ class Health(pygame.sprite.Sprite):
         self.Y = randint(self.sizeY,ALTURA-44)
         self.rect.topleft = (self.X, self.Y)
 
+#Points object
 class Points(pygame.sprite.Sprite):
     def __init__(self,spritePTS):
         pygame.sprite.Sprite.__init__(self)
@@ -78,7 +81,7 @@ class Points(pygame.sprite.Sprite):
         self.Y = randint(self.sizeY,ALTURA-44)
         self.rect.topleft = (self.X, self.Y)
 
-
+#Shield object
 class Shield(pygame.sprite.Sprite):
     def __init__(self,spriteSh):
         pygame.sprite.Sprite.__init__(self)

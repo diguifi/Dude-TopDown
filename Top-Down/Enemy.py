@@ -27,6 +27,7 @@ from pygame.locals import *
 from Configs import *
 from random import randint,randrange,uniform
 
+#Object for field of view
 class collider(pygame.sprite.Sprite):
     def __init__(self,spriteEC,x,y,sizeX,sizeY):
         pygame.sprite.Sprite.__init__(self)
@@ -39,6 +40,7 @@ class collider(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.topleft = (x-self.X, y-self.Y)
 
+#Object for the enemy
 class enemy(pygame.sprite.Sprite):
     def __init__(self,spriteE,spriteEC,gamemode):
         pygame.sprite.Sprite.__init__(self)
@@ -66,9 +68,9 @@ class enemy(pygame.sprite.Sprite):
         self.round = 1
         self.gamemode=gamemode
 
-        #DNA
+        #Chromossome (If gamemode == genetic algorithm)
         if gamemode==2:
-            #[movimentaçao, velocidade, relaçao c/ hp, relaçao c/ shield, relaçao c/ pontos, relaçao c/ player, campo de visao, vida]
+            #[movement, speed, relation with hp, relation with shield, relation with points, relation with player, field of view, life]
             self.dna=[randint(1,10),randint(70,130),randint(0,2),randint(0,2),randint(0,2),randint(0,1),round(uniform(0.5, 2),2),round(uniform(0.5, 2),2)]
 
             self.setLife()
@@ -80,7 +82,7 @@ class enemy(pygame.sprite.Sprite):
 
         self.fitness=0
 
-        #Variaveis de variação da movimentação
+        #Movement attributes
         self.crazyness=1
         self.lado=1
         self.direx=1
@@ -92,22 +94,32 @@ class enemy(pygame.sprite.Sprite):
         self.proxPts = 0
         self.proxPlayer = 0
         
-
+    #Gets chromossome
     def getDNA(self):
         return self.dna
+    
+    #Gets fitness score
     def getFitness(self):
         return self.fitness
+
+    #Gets seconds alive
     def getSegundos(self):
         return self.segundos
+
+    #Sets fitness score
     def setFitness(self,lifeP,pontosP):
         self.fitness = (self.pontos/25)+(self.segundos/2)+(self.life/15)
         print self.fitness
+
+    #Sets attribute fitness
     def setFitnessValue(self,fit):
         self.fitness = fit
 
+    #Sets life
     def setLife(self):
         self.totalLife = self.dna[7]*LIFE_ENEMY
 
+    #Sets how large is the field of view, based on the cromossome
     def setVision(self,spriteEC):
         a,b = pygame.Surface.get_width(spriteEC), pygame.Surface.get_height(spriteEC)
         a=int(a*self.dna[6])
@@ -116,6 +128,7 @@ class enemy(pygame.sprite.Sprite):
         spriteEC = spriteEC.convert_alpha()
         self.coll = collider(spriteEC,self.X,self.Y,self.sizeX,self.sizeY)
 
+    #Resets for next level
     def reset(self,dna,gamemode,spriteEC,Round):
         self.X = randint(LARGURA/2,LARGURA-self.sizeX-33)
         self.Y = randint(ALTURA/2,ALTURA-self.sizeY-33)
@@ -136,9 +149,8 @@ class enemy(pygame.sprite.Sprite):
         self.coll = 0
         self.round=Round
 
-        #DNA
+        #Chromossome
         if gamemode==2:
-            #[movimentaçao, velocidade, relaçao c/ hp, relaçao c/ shield, relaçao c/ pontos, relaçao c/ player, campo de visao, vida]
             self.dna=dna
 
             self.setLife()
@@ -150,7 +162,7 @@ class enemy(pygame.sprite.Sprite):
 
         self.fitness=0
 
-        #Variaveis de variação da movimentação
+        #Movement attributes
         self.crazyness=1
         self.lado=1
         self.direx=1
@@ -161,7 +173,7 @@ class enemy(pygame.sprite.Sprite):
         self.proxSh = 0
         self.proxPts = 0
 
-
+    #Tests if got hit by shot
     def testCollisionShot(self,time_passed,shot,player,dead_sound):
         dano = time_passed/2
         if not self.shield_on:
@@ -173,11 +185,13 @@ class enemy(pygame.sprite.Sprite):
                     player.pontos += 1000
                     self.Dead(player.life,player.pontos)
 
+    #Tests if collided with player
     def testCollisionPlayer(self,player,time_passed):
         pts = time_passed/25
         if pygame.sprite.collide_rect(self, player):
             self.pontos += pts
 
+    #Manages the life bar
     def lifeBar(self,screen):
         self.barGreen = float(self.life)/float(LIFE_ENEMY)
         self.barRed = ((float(LIFE_ENEMY)-float(self.life))/float(LIFE_ENEMY))*(-1)
@@ -190,31 +204,34 @@ class enemy(pygame.sprite.Sprite):
             else:
                 pygame.draw.rect(screen, VERMELHO, (self.X+3,self.Y-12,40,10), 0)
 
+    #Activates a power
     def activatePower(self,sprite,tipo):
         if tipo == "shield":
             self.changeSprite(sprite)
             self.secondsLeft = SHIELD_TIME
             self.shield_on = True
 
+    #Manages changes by getting the shield
     def onShield(self,sprite):
         self.secondsLeft -= 1
         if self.secondsLeft <= 0:
             self.shield_on = False
             self.changeSprite(sprite)
             
-
+    #Changes sprite
     def changeSprite(self,sprite):
         self.image = sprite
         self.rect = self.image.get_rect()
         self.rect.topleft = (self.X, self.Y)            
 
+    #Activates "Dead" state
     def Dead(self,plife,ppontos):
         self.dead = True
         self.dead2 = 1
         self.X,self.Y=1000,1000
         self.setFitness(plife,ppontos)
         
-    
+    #Main game function for the enemy
     def update(self,screen,time_passed,spr,cont,healthGroup,placeHP,ptsGroup,placePts,shieldGroup,placeSh,plife,ppontos,player):
         time_passed_seconds = time_passed/1000.0
         distance_moved = time_passed_seconds * self.speed
@@ -273,7 +290,7 @@ class enemy(pygame.sprite.Sprite):
                     self.proxPlayer = 0
         
         
-        #Teste colisao com itens
+        #Tests colision with items
         #Health
         if pygame.sprite.spritecollide(self, healthGroup, True):
             if self.life+BONUS_HEALTH<=LIFE_ENEMY:
@@ -298,7 +315,7 @@ class enemy(pygame.sprite.Sprite):
         
         if not self.dead:
 
-            #MEF
+            #Finite state machine behaviours
             if self.gamemode==1:
                 if self.round==1:
                     self.movimentacao1(distance_moved,cont)
@@ -320,9 +337,10 @@ class enemy(pygame.sprite.Sprite):
                     self.movimentacao9(distance_moved)
                 else:
                     self.movimentacao10(distance_moved,cont)
-            #Genetico
+                    
+            #Genetic algorithm behaviours
             elif self.gamemode==2:
-                #Movimentação
+                #Movimentation
                 if self.proxHP>0 or self.proxSh>0 or self.proxPts>0 or self.proxPlayer>0:
                     if self.proxPlayer==1:
                         self.pegarPlayer(distance_moved,(player.X,player.Y))
@@ -363,7 +381,7 @@ class enemy(pygame.sprite.Sprite):
                         self.movimentacao9(distance_moved)
                     elif self.dna[0]==10:
                         self.movimentacao10(distance_moved,cont)
-                #Velocidade
+                #Speed
                 self.speed = self.dna[1]
 
         if (cont==1) and (not self.dead):
@@ -372,10 +390,10 @@ class enemy(pygame.sprite.Sprite):
                 self.onShield(spr)
 
 
-    #FUNÇÕES DA INTELIGÊNCIA ARTIFICIAL:
-    #Funções da Movimentação
+    #IA Methods:
+    #Movement methods
 
-    #Teste de colisao com as bordas do mapa
+    #Border collision test
     def hitWallTest(self):
         if self.X>LARGURA-self.sizeX-33:
             self.X-=2
@@ -391,23 +409,23 @@ class enemy(pygame.sprite.Sprite):
             self.Y+=2
             self.yps=-1
             
-    #Eixo X
+    #Mov type 1: 'X Axis'
     def movimentacao1(self,distance_moved,cont):
         self.X += self.xis*distance_moved       
         self.hitWallTest()
 
-    #Eixo Y
+    #Mov type 2: 'Y Axis'
     def movimentacao2(self,distance_moved,cont):
         self.Y -= self.yps*distance_moved
         self.hitWallTest()
             
-    #Screensaver de DVD
+    #Mov type 3: 'DVD Screensaver'
     def movimentacao3(self,distance_moved):
         self.X += self.xis*distance_moved
         self.Y -= self.yps*distance_moved
         self.hitWallTest()
 
-    #Screensaver de DVD maluco
+    #Mov type 4: 'Crazy DVD screensaver'
     def movimentacao4(self,distance_moved,cont):
         if cont==1:
             self.lado=randint(1,3)
@@ -429,7 +447,7 @@ class enemy(pygame.sprite.Sprite):
             
         self.hitWallTest()
         
-    #50% parado 50% DVD
+    #Mov type 5:  '50% still 50% DVD'
     def movimentacao5(self,distance_moved,cont):
         if cont==1:
             if self.segundos%2==0:
@@ -441,7 +459,7 @@ class enemy(pygame.sprite.Sprite):
                 
         self.hitWallTest()
         
-    #50% X 50% Y
+    #Mov type 6: '50% X 50% Y'
     def movimentacao6(self,distance_moved,cont):
         if cont==1:
             if self.segundos%2==0:
@@ -454,7 +472,7 @@ class enemy(pygame.sprite.Sprite):
                 
         self.hitWallTest()
 
-    #DVD melhorado 1
+    #Mov type 7: 'improved DVD 1'
     def movimentacao7(self,distance_moved):
         if self.xis>=1:
             self.direx=1
@@ -475,7 +493,7 @@ class enemy(pygame.sprite.Sprite):
             
         self.hitWallTest()
 
-    #DVD melhorado 2
+    #Mov type 8: 'improved DVD 2'
     def movimentacao8(self,distance_moved):
         if self.yps>=1:
             self.direy=1
@@ -495,7 +513,7 @@ class enemy(pygame.sprite.Sprite):
         self.Y -= self.yps*distance_moved
         self.hitWallTest()
 
-    #DVD melhorado 3
+    #Mov type 9: 'improved DVD 3'
     def movimentacao9(self,distance_moved):
         if self.xis>=1:
             self.direx=1
@@ -528,7 +546,7 @@ class enemy(pygame.sprite.Sprite):
         self.Y -= self.yps*distance_moved
         self.hitWallTest()
 
-    #Andando
+    #Mov type 10: 'Walking'
     def movimentacao10(self,distance_moved,cont):
         if cont==1:
             if self.segundos%2==0:
@@ -544,7 +562,8 @@ class enemy(pygame.sprite.Sprite):
                 
         self.hitWallTest()
 
-    #Funções de comportamento em relação aos itens
+    #Item interaction methods
+    #Takes HP
     def pegarHP(self,distance_moved,placeHP):
         itemX=placeHP[0]
         itemY=placeHP[1]
@@ -560,6 +579,7 @@ class enemy(pygame.sprite.Sprite):
         self.X += self.xis*distance_moved
         self.Y -= self.yps*distance_moved
 
+    #Avoid HP
     def evitarHP(self,distance_moved,placeHP):
         itemX=placeHP[0]
         itemY=placeHP[1]
@@ -575,6 +595,7 @@ class enemy(pygame.sprite.Sprite):
         self.X += self.xis*distance_moved
         self.Y -= self.yps*distance_moved
 
+    #Takes shield
     def pegarSh(self,distance_moved,placeSh):
         itemX=placeSh[0]
         itemY=placeSh[1]
@@ -590,6 +611,7 @@ class enemy(pygame.sprite.Sprite):
         self.X += self.xis*distance_moved
         self.Y -= self.yps*distance_moved
 
+    #Avoids shield
     def evitarSh(self,distance_moved,placeSh):
         itemX=placeSh[0]
         itemY=placeSh[1]
@@ -605,6 +627,7 @@ class enemy(pygame.sprite.Sprite):
         self.X += self.xis*distance_moved
         self.Y -= self.yps*distance_moved
 
+    #Takes points
     def pegarPts(self,distance_moved,placePts):
         itemX=placePts[0]
         itemY=placePts[1]
@@ -620,6 +643,7 @@ class enemy(pygame.sprite.Sprite):
         self.X += self.xis*distance_moved
         self.Y -= self.yps*distance_moved
 
+    #Avoids points
     def evitarPts(self,distance_moved,placePts):
         itemX=placePts[0]
         itemY=placePts[1]
@@ -635,6 +659,7 @@ class enemy(pygame.sprite.Sprite):
         self.X += self.xis*distance_moved
         self.Y -= self.yps*distance_moved
 
+    #Run towards player
     def pegarPlayer(self,distance_moved,placePlayer):
         playerX=placePlayer[0]
         playerY=placePlayer[1]

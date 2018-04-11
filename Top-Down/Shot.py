@@ -27,6 +27,7 @@ from pygame.locals import *
 from Configs import *
 from random import randint
 
+#Shot object
 class shot(pygame.sprite.Sprite):
     def __init__(self,spriteS,posx,posy,x,y):
         pygame.sprite.Sprite.__init__(self)
@@ -39,7 +40,8 @@ class shot(pygame.sprite.Sprite):
         self.xis = x
         self.yps = y
         self.cantShoot = True
-    
+
+    #Main update function
     def update(self,screen,time_passed):
         time_passed_seconds = time_passed/1000.0
         distance_moved = time_passed_seconds * self.speed

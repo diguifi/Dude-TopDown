@@ -27,6 +27,7 @@ from pygame.locals import *
 from random import randint,uniform
 from Configs import *
 
+#Object for managing the genetic algorithm methods
 class geneticPool():
     def __init__(self,enemiesData):
         self.enemiesData = enemiesData
@@ -39,10 +40,12 @@ class geneticPool():
         self.selecao()
         self.crossover()
         self.mutacao()
-            
+
+    #Sorts enemies by fitness score
     def sortFitness(self):
         self.enemiesData=sorted(self.enemiesData, key=lambda fit: fit[1])
 
+    #Selection (Roullete method)
     def selecao(self):
         self.sortFitness()
         self.somaFitness()
@@ -60,18 +63,19 @@ class geneticPool():
                     y+=1
                 x+=1
             
-
+    #Crossover (Single point crossover)
     def crossover(self):
-        #Adicionar os melhores
+        #Adds the best
         novoRandom = [[randint(1,10),randint(70,130),randint(0,2),randint(0,2),randint(0,2),randint(0,1),round(uniform(0.5, 2),2),round(uniform(0.5, 2),2)],0,0]
         self.enemiesData[2] = novoRandom
         self.enemiesData.append(self.enemiesDataSelecteds[1])
         self.enemiesData.append(self.enemiesDataSelecteds[0])
         
-        #Aplicar cruzamento em um ponto
+        #Applies single point crossover
         self.enemiesData[0][0]=[self.enemiesData[3][0][0],self.enemiesData[3][0][1],self.enemiesData[3][0][2],self.enemiesData[3][0][3],self.enemiesData[4][0][4],self.enemiesData[4][0][5],self.enemiesData[4][0][6],self.enemiesData[4][0][7]]
         self.enemiesData[1][0]=[self.enemiesData[4][0][0],self.enemiesData[4][0][1],self.enemiesData[4][0][2],self.enemiesData[4][0][3],self.enemiesData[3][0][4],self.enemiesData[3][0][5],self.enemiesData[3][0][6],self.enemiesData[3][0][7]]
 
+    #Mutation
     def mutacao(self):
         x=0
         while x<2:
@@ -98,7 +102,7 @@ class geneticPool():
                 y+=1
             x+=1
             
-
+    #Sums all fitness scores
     def somaFitness(self):
         x=0
         while x<self.tam:
@@ -106,6 +110,7 @@ class geneticPool():
             x+=1
         self.somaFit=float(self.somaFit)
 
+    #Reset
     def reset(self):
         self.enemiesData = []
         self.tam = len(self.enemiesData)
