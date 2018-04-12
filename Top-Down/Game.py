@@ -38,7 +38,7 @@ relat=False
 pygame.mixer.pre_init(22050,16,2,4096)
 #pygame.mixer.init()
 
-#Funçao para carregar imagens
+#Function to load images
 def load_image(image_loaded,tipo):
         try:
             image = pygame.image.load(image_loaded)
@@ -60,7 +60,7 @@ def load_image(image_loaded,tipo):
                 image = pygame.transform.scale(image,(x,y))
                 return image.convert_alpha()
 
-#Funçoes do Pause
+#Pause main function (not working properly)
 def pause():
     drawpause()
     while 1:
@@ -68,6 +68,7 @@ def pause():
         if p.type in (pygame.QUIT, pygame.KEYDOWN):
             return
 
+#Pause draw function
 def drawpause():
     font = pygame.font.Font(None, 48)
     text1 = font.render("PAUSE", 1, (10, 10, 10))
@@ -83,7 +84,7 @@ def drawpause():
     screen.blit(text2, text2pos)
     pygame.display.flip()
 
-#Funçoes executadas quando a variavel "life" eh menor que 0
+#Function executed when player has life<0
 def morto():
     drawmorto()
     waiting = True
@@ -96,6 +97,8 @@ def morto():
                 if event.key == K_ESCAPE:
                     sair()
                 sair()
+
+#Function for next level
 def vitorioso():
     drawvitorioso()
     waiting = True
@@ -112,6 +115,7 @@ def vitorioso():
                 elif event.key == K_n:
                     sair()
 
+#Function for drawing the dead status
 def drawmorto():
     font = pygame.font.Font(None, 48)
     text1 = font.render("GAME OVER", 1, BRANCO)
@@ -127,6 +131,7 @@ def drawmorto():
     screen.blit(txtAgain, txtAgain_rect)
     pygame.display.flip()
 
+#Function for drawing the victorious status
 def drawvitorioso():
     font = pygame.font.Font(None, 48)
     text1 = font.render("VITORIA!", 1, BRANCO)
@@ -142,7 +147,7 @@ def drawvitorioso():
     screen.blit(txtAgain, txtAgain_rect)
     pygame.display.flip()
 
-#Funçao pra mostrar o menu principal
+#Function for Main Menu
 def menuprincipal(gamemode):
     screen.fill(PRETO)
     textoMenuPrincipal()
@@ -152,6 +157,7 @@ def menuprincipal(gamemode):
     gamemode=selecaoModo()
     return gamemode
 
+#Draw Main Menu
 def textoMenuPrincipal():
     font = pygame.font.Font("fonts/font.ttf", 25)
     txtTitle = font.render("As aventuras de Dude", 1, BRANCO)
@@ -180,6 +186,7 @@ def textoMenuPrincipal():
     txt_rect.midtop = (LARGURA/2, ALTURA/1.2)
     screen.blit(txtTitle, txt_rect)
 
+#Draw post menu screen
 def posmenu():
     screen.fill(PRETO)
     font = pygame.font.Font("fonts/font.ttf", 18)
@@ -223,6 +230,7 @@ def posmenu():
     pygame.display.flip()
     aguardarBotao()
 
+#Wait for button press
 def aguardarBotao():
     waiting = True
     while waiting:
@@ -233,6 +241,7 @@ def aguardarBotao():
             if event.type == pygame.KEYDOWN:
                 waiting = False
 
+#Mode select function
 def selecaoModo():
     waiting = True
     arrow_position=1
@@ -273,7 +282,7 @@ def selecaoModo():
                     elif arrow_position==-1:
                         return 2
 
-#Funçao de exibiçao do status do jogo
+#Function for game status
 def status(gamemode,gene1,gene2,gene3,gene4,gene5):
     font = pygame.font.Font("fonts/font.ttf", 18)
     txtStatus = font.render("Vida: "+str(life), 1, PRETO, BRANCO)
@@ -313,14 +322,14 @@ def status(gamemode,gene1,gene2,gene3,gene4,gene5):
     txtGene5Pos = 758,520
     screen.blit(txtGene5, txtGene5Pos)
 
-#Funçao para sair do jogo
+#Exit function
 def sair():
     if relat:
         gerarRelatorio(listaRound,gamemode,Round,listaCrom)
     pygame.quit()
     exit()
 
-#Funçao para gerar relatorio final
+#Final report function
 def gerarRelatorio(listaRound,g,Round,listaCrom):
         fname = "Relatorio.txt"
         if os.path.isfile(fname):
@@ -346,12 +355,13 @@ def gerarRelatorio(listaRound,g,Round,listaCrom):
 
         file.close()
 
+#Gets enemies chromossomes and fitness
 def getEnemiesData():
         enemiesData = [[DNA1,enemy.getFitness()],[DNA2,enemy2.getFitness()],[DNA3,enemy3.getFitness()],[DNA4,enemy4.getFitness()],[DNA5,enemy5.getFitness()]]
         return enemiesData
 
 
-#Inicializa tela principal
+#Initializes main screen
 os.environ["SDL_VIDEO_CENTERED"] = "1"
 screen = pygame.display.set_mode((LARGURA2, ALTURA2),0,32)
 bg = load_image(BACKGROUND,"background")
@@ -376,7 +386,7 @@ dead_sound = pygame.mixer.Sound(DEAD_SOUND)
 reload_sound = pygame.mixer.Sound(RELOAD_SOUND)
 shield_sound = pygame.mixer.Sound(SHIELD_SOUND)
 
-#Inicializa as sprites
+#Initializes sprites
 sprite_p = load_image(SPRITE_PLAYER,"sprite")
 sprite_p_sh = load_image(SPRITE_PLAYER_SH,"sprite")
 sprite_e = load_image(SPRITE_ENEMY,"sprite")
@@ -393,13 +403,13 @@ sprite_hp = load_image(SPRITE_HEALTH,"sprite")
 sprite_pts = load_image(SPRITE_POINTS,"sprite")
 sprite_arrow = pygame.image.load(SPRITE_ARROW).convert_alpha()
 
-#Inicializaçao dos powerups
+#Powerups initialization
 ammoBox = ammobox(sprite_a)
 shield = Shield(sprite_sh)
 health = Health(sprite_hp)
 itemPts = Points(sprite_pts)
 
-#Inicializaçao do personagem
+#Player initialization
 move_x, move_y = 0, 0
 shot_x, shot_y = 1, 0
 player = dude(sprite_p,sprite_s)
@@ -412,7 +422,7 @@ cantShoot = False
 s=[]
 tiros=-1
 
-#Menu principal
+#Main menu call
 clock2 = pygame.time.Clock()
 gamemode=menuprincipal(gamemode)
 if gamemode==1:
@@ -421,7 +431,7 @@ elif gamemode==2:
     screen = pygame.display.set_mode((LARGURA2, ALTURA2),0,32)
 posmenu()
 
-#Inicializaçao dos inimigos
+#Enemies initialization
 enemy = e(sprite_e,sprite_ec,gamemode)
 enemy2 = e(sprite_e2,sprite_ec,gamemode)
 enemy3 = e(sprite_e3,sprite_ec,gamemode)
@@ -429,14 +439,14 @@ enemy4 = e(sprite_e4,sprite_ec,gamemode)
 enemy5 = e(sprite_e5,sprite_ec,gamemode)
 lista_inimigos = [enemy,enemy2,enemy3,enemy4,enemy5]
 
-#Captaçao genetica
+#Genetic reading
 DNA1 = enemy.getDNA()
 DNA2 = enemy2.getDNA()
 DNA3 = enemy3.getDNA()
 DNA4 = enemy4.getDNA()
 DNA5 = enemy5.getDNA()
 
-#Atribuiçao de grupos de entidades
+#Creating group entities for collision tests
 inimigos = pygame.sprite.Group()
 inimigos.add(enemy)
 inimigos.add(enemy2)
@@ -454,7 +464,7 @@ ptsGroup = pygame.sprite.Group()
 personagem = pygame.sprite.Group()
 personagem.add(player)
 
-#Objeto clock
+#Clock object setup
 clock = pygame.time.Clock()
 start_ticks = pygame.time.get_ticks()
 minutos = 00
@@ -466,9 +476,9 @@ relat=True
 
 
 pygame.mixer.music.set_volume(0.15)
-#Loop principal
+#Main loop
 while playagain:
-  
+  #ROUND LOOP
   while (life>0) and (vitoria<5):
       time_passed = clock.tick()
       milissegundos = pygame.time.get_ticks()-start_ticks
@@ -478,9 +488,9 @@ while playagain:
       cont=0
       if segundos>59:
           i+=1
-      #Eventos do jogo
+      #Game events
       for event in pygame.event.get():
-          #SAIR DO JOGO
+          #Quit game
           if event.type == QUIT:
               listaRound.append([life,pontos,minutos,segundos])
               enemiesData=getEnemiesData()
@@ -506,7 +516,7 @@ while playagain:
                       elif gamemode==2:
                           screen = pygame.display.set_mode((LARGURA2, ALTURA2),0,32)
                       full_screen = False
-          #TECLAS DE MOVIMENTAÇAO PERSONAGEM
+          #Player movimentation inputs
           if event.type == KEYDOWN:
               if event.key == K_LEFT:
                   move_x = -1
@@ -525,7 +535,7 @@ while playagain:
                   shot_x = 0
                   shot_y = +1
 
-              #TECLA DE TIRO
+              #Shot key
               elif event.key == K_SPACE:
                   if ammo>0:
                       if not cantShoot:
@@ -547,26 +557,26 @@ while playagain:
               elif event.key == K_DOWN:
                   move_y = 0
 
-      #Posicionamento do background e status
+      #Background positioning and game status
       screen.blit(bg, (0,0))
       status(gamemode,DNA1,DNA2,DNA3,DNA4,DNA5)
 
-      #Movimentaçao personagem
+      #Player movimentation
       player.update(move_x,move_y,screen,time_passed,sprite_p,cont,lista_inimigos,shot_x,shot_y,dead_sound)
 
-      #Localizaçao dos itens
+      #Item placement reading
       placeHP = (health.X,health.Y)
       placeSh = (shield.X,shield.Y)
       placePts = (itemPts.X,itemPts.Y)
       
-      #Movimentaçao inimigos
+      #Enemies movimentation
       enemy.update(screen,time_passed,sprite_e,cont,healthGroup,placeHP,ptsGroup,placePts,shieldGroup,placeSh,player.life,player.pontos,player)
       enemy2.update(screen,time_passed,sprite_e2,cont,healthGroup,placeHP,ptsGroup,placePts,shieldGroup,placeSh,player.life,player.pontos,player)
       enemy3.update(screen,time_passed,sprite_e3,cont,healthGroup,placeHP,ptsGroup,placePts,shieldGroup,placeSh,player.life,player.pontos,player)
       enemy4.update(screen,time_passed,sprite_e4,cont,healthGroup,placeHP,ptsGroup,placePts,shieldGroup,placeSh,player.life,player.pontos,player)
       enemy5.update(screen,time_passed,sprite_e5,cont,healthGroup,placeHP,ptsGroup,placePts,shieldGroup,placeSh,player.life,player.pontos,player)
 
-      #Teste de tiro
+      #Test if shooting (enables multi shots and single shots on Configs.py)
       if shooting:
           j=-1
           while j<tiros:
@@ -588,12 +598,12 @@ while playagain:
       else:
         cantShoot = False
 
-      #Atualizaçao das variaveis do status
+      #Status variables update
       pontos = player.pontos
       life = player.life
       vitoria = enemy.dead2+enemy2.dead2+enemy3.dead2+enemy4.dead2+enemy5.dead2
 
-      #Colisao com powerups
+      #Collision with powerups
       if pygame.sprite.spritecollide(player, ammoGroup, True):
           reload_sound.play()
           player.ammo += ammoBox.bonusAmmo
@@ -615,7 +625,7 @@ while playagain:
           player.shield_on = True
           player.activatePower(sprite_p_sh,"shield")
 
-      #Spawn dos powerups
+      #Powerups powerups
       #Ammo
       if (segundos%20==0) and segundos != 0:
           if control1 == 1:
@@ -655,12 +665,14 @@ while playagain:
       healthGroup.draw(screen)
       shieldGroup.draw(screen)
 
-      #Testes gerais
+      #General tests
+      #PLACE TESTS LINES HERE
 
-      #Refresh (por FPS)
+      #Refresh (by FPS)
       pygame.display.update()
 
-      #FIM LOOP DO ROUND
+      #END OF THE ROUND LOOP
+      
   enemiesData=getEnemiesData()
   if life<5:
     listaRound.append([life,pontos,minutos,segundos])
@@ -670,11 +682,11 @@ while playagain:
     listaRound.append([life,pontos,minutos,segundos])
     listaCrom.append(enemiesData)
     vitorioso()
-  #MUDANÇA DE ROUND
+  #ROUND CHANGE
   Round+=1
   vitoria=0  
-  #INICIALIZAÇÕES
-  #Objeto clock
+  #INICIALIZATIONS
+  #Clock
   clock = pygame.time.Clock()
   start_ticks = pygame.time.get_ticks()
   minutos = 00
@@ -683,13 +695,13 @@ while playagain:
   cont = 0
   pygame.time.set_timer(USEREVENT + 1,1000)
   
-  #Inicialização dos powerups
+  #Powerups
   ammoBox = ammobox(sprite_a)
   shield = Shield(sprite_sh)
   health = Health(sprite_hp)
   itemPts = Points(sprite_pts)
 
-  #Inicializaçao do personagem
+  #Player
   move_x, move_y = 0, 0
   shot_x, shot_y = 1, 0
   player.reset()
@@ -703,16 +715,16 @@ while playagain:
   tiros=-1
 
   '''
-    Antes de reiniciar os inimigos, aplicar modificações genéticas
+    Before reseting the enemies, apply genetic modifications
   '''
   
-  #Envio dos cromossomos e fitness para a função genética
+  #Send of chromosomes and fitness scores to the Genetic Pool
   if gamemode==2:
           enemiesData=getEnemiesData()
           g = geneticPool(enemiesData)
           enemiesData = g.enemiesData
 
-          #Novos DNA's (cromossomos)
+          #New chromosomes
           DNA1=enemiesData[4][0]
           DNA2=enemiesData[3][0]
           DNA3=enemiesData[2][0]
@@ -725,14 +737,14 @@ while playagain:
           DNA4=["","","","","","","",""]
           DNA5=["","","","","","","",""]
 
-  #Reinicializaçao dos inimigos com novos DNA's (cromossomos)
+  #Reset of enemies with new chromosomes
   enemy.reset(DNA1,gamemode,sprite_ec,Round)
   enemy2.reset(DNA2,gamemode,sprite_ec,Round)
   enemy3.reset(DNA3,gamemode,sprite_ec,Round)
   enemy4.reset(DNA4,gamemode,sprite_ec,Round)
   enemy5.reset(DNA5,gamemode,sprite_ec,Round)
 
-  #Atribuiçao de grupos de entidades
+  #Entities groups
   inimigos = pygame.sprite.Group()
   inimigos.add(enemy)
   inimigos.add(enemy2)
@@ -750,4 +762,5 @@ while playagain:
   personagem = pygame.sprite.Group()
   personagem.add(player)
 
+#Exit
 sair()
