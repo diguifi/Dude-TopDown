@@ -60,12 +60,17 @@ def load_image(image_loaded,tipo):
                 image = pygame.transform.scale(image,(x,y))
                 return image.convert_alpha()
 
-#Pause main function (not working properly)
+#Pause main function (almost working)
 def pause():
+    global paused
+    global clock
+    global paused_ticks
     drawpause()
-    while 1:
+    while paused:
+        paused_ticks = clock.tick()
         p = pygame.event.wait()
         if p.type in (pygame.QUIT, pygame.KEYDOWN):
+            paused = False
             return
 
 #Pause draw function
@@ -472,7 +477,11 @@ segundos = 00
 i=0
 cont = 0
 pygame.time.set_timer(USEREVENT+1,1000)
-relat=True
+paused = False
+paused_ticks = 0
+
+#Change this to true if want to generate reports at the end of the game
+relat=False
 
 
 pygame.mixer.music.set_volume(0.15)
@@ -480,7 +489,9 @@ pygame.mixer.music.set_volume(0.15)
 while playagain:
   #ROUND LOOP
   while (life>0) and (vitoria<5):
-      time_passed = clock.tick()
+      time_passed = clock.tick() - paused_ticks
+      if paused_ticks > 0:
+          paused_ticks = 0
       milissegundos = pygame.time.get_ticks()-start_ticks
       segundos = ((pygame.time.get_ticks()-start_ticks)/1000)-60*i
       segundoss = segundos+60*i
@@ -505,6 +516,7 @@ while playagain:
                   listaCrom.append(enemiesData)
                   sair()
               elif event.key == K_p:
+                  paused = True
                   pause()
               elif event.key == K_f:
                   if not full_screen:
