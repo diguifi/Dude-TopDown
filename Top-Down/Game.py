@@ -60,7 +60,7 @@ def load_image(image_loaded,tipo):
                 image = pygame.transform.scale(image,(x,y))
                 return image.convert_alpha()
 
-#Pause main function (almost working)
+#Pause main function
 def pause():
     global paused
     global clock
@@ -68,10 +68,10 @@ def pause():
     drawpause()
     while paused:
         paused_ticks = clock.tick()
-        p = pygame.event.wait()
-        if p.type in (pygame.QUIT, pygame.KEYDOWN):
-            paused = False
-            return
+        for event in pygame.event.get():
+            if event.type == KEYDOWN:
+                paused = False
+                return
 
 #Pause draw function
 def drawpause():
@@ -186,7 +186,7 @@ def textoMenuPrincipal():
     screen.blit(txtTitle, txt_rect)
 
     font = pygame.font.Font("fonts/font.ttf", 15)
-    txtTitle = font.render("Pressione qualquer tecla", 1, BRANCO)
+    txtTitle = font.render("Select mode and press Enter", 1, BRANCO)
     txt_rect = txtTitle.get_rect()
     txt_rect.midtop = (LARGURA/2, ALTURA/1.2)
     screen.blit(txtTitle, txt_rect)
@@ -227,7 +227,7 @@ def posmenu():
     screen.blit(txtTitle, txt_rect)
 
     font = pygame.font.Font("fonts/font.ttf", 15)
-    txtTitle = font.render("Pressione qualquer tecla", 1, BRANCO)
+    txtTitle = font.render("Press any key to start!", 1, BRANCO)
     txt_rect = txtTitle.get_rect()
     txt_rect.midtop = (LARGURA/2, ALTURA/1.2)
     screen.blit(txtTitle, txt_rect)
@@ -246,7 +246,7 @@ def aguardarBotao():
             if event.type == pygame.KEYDOWN:
                 waiting = False
 
-#Mode select function
+#Mode select function (Main menu)
 def selecaoModo():
     waiting = True
     arrow_position=1
@@ -287,7 +287,7 @@ def selecaoModo():
                     elif arrow_position==-1:
                         return 2
 
-#Function for game status
+#Function for displaying game status
 def status(gamemode,gene1,gene2,gene3,gene4,gene5):
     font = pygame.font.Font("fonts/font.ttf", 18)
     txtStatus = font.render("Vida: "+str(life), 1, PRETO, BRANCO)
@@ -327,7 +327,7 @@ def status(gamemode,gene1,gene2,gene3,gene4,gene5):
     txtGene5Pos = 758,520
     screen.blit(txtGene5, txtGene5Pos)
 
-#Exit function
+#Exit game function
 def sair():
     if relat:
         gerarRelatorio(listaRound,gamemode,Round,listaCrom)
@@ -434,6 +434,8 @@ if gamemode==1:
     screen = pygame.display.set_mode((LARGURA, ALTURA),0,32)
 elif gamemode==2:
     screen = pygame.display.set_mode((LARGURA2, ALTURA2),0,32)
+
+#Post menu call
 posmenu()
 
 #Enemies initialization
@@ -489,9 +491,9 @@ pygame.mixer.music.set_volume(0.15)
 while playagain:
   #ROUND LOOP
   while (life>0) and (vitoria<5):
-      time_passed = clock.tick() - paused_ticks
-      if paused_ticks > 0:
-          paused_ticks = 0
+      #Calculates in ms how long it took since last call of clock.tick()
+      time_passed = clock.tick()
+      
       milissegundos = pygame.time.get_ticks()-start_ticks
       segundos = ((pygame.time.get_ticks()-start_ticks)/1000)-60*i
       segundoss = segundos+60*i
@@ -499,6 +501,7 @@ while playagain:
       cont=0
       if segundos>59:
           i+=1
+          
       #Game events
       for event in pygame.event.get():
           #Quit game
