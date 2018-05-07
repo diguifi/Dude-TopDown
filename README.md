@@ -24,3 +24,12 @@ To be able to execute the Game, must have the 'PyGame' Library, and then, execut
     - Linux:
         - use your package manager to install 'pip' (Ex - 'sudo apt-get install pip')
         - run 'pip install pygame'
+
+# TODOs
+
+- Animation of genetic pool methods when passing a level
+- Code refactoring to make the game loop and variables part of an object
+- New maps for levels
+- Better in-game UI
+- Optimize music and sounds for better sync
+- General optimization
