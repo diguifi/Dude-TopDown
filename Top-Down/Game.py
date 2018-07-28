@@ -77,13 +77,13 @@ def pause():
 #Pause draw function
 def drawpause():
     font = pygame.font.Font(None, 48)
-    text1 = font.render("PAUSE", 1, (10, 10, 10))
+    text1 = font.render("PAUSE", 1, BRANCO)
     text1pos = text1.get_rect()
     text1pos.centerx = screen.get_rect().centerx
     text1pos.centery = screen.get_rect().centery
     screen.blit(text1, text1pos)
     font = pygame.font.Font(None, 36)
-    text2 = font.render("Pressione qualquer tecla para continuar", 1, (10,10,10))
+    text2 = font.render("Pressione qualquer tecla para continuar", 1, BRANCO)
     text2pos = text2.get_rect()
     text2pos.centerx = screen.get_rect().centerx
     text2pos.centery = screen.get_rect().centery + 50
@@ -289,7 +289,7 @@ def selecaoModo():
                         return 2
 
 def startAnimation(previousData, newData):
-    anim = animation(previousData, newData)
+    anim = animation(screen, previousData, newData, enemiesSpritesList)
     animationRunning = True
     while animationRunning:
         anim_ticks = clock.tick()
@@ -422,6 +422,7 @@ sprite_sh = load_image(SPRITE_SHIELD,"sprite")
 sprite_hp = load_image(SPRITE_HEALTH,"sprite")
 sprite_pts = load_image(SPRITE_POINTS,"sprite")
 sprite_arrow = pygame.image.load(SPRITE_ARROW).convert_alpha()
+enemiesSpritesList = [sprite_e, sprite_e2, sprite_e3, sprite_e4, sprite_e5]
 
 #Powerups initialization
 ammoBox = ammobox(sprite_a)
@@ -752,6 +753,7 @@ while playagain:
   if gamemode==2:
           enemiesData=getEnemiesData()
           previousData = enemiesData
+          
           g = geneticPool(enemiesData)
           enemiesData = g.enemiesData
           newData = enemiesData
