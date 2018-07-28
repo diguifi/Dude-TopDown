@@ -31,6 +31,7 @@ from Player import dude
 from Shot import shot
 from GeneticPool import geneticPool
 from Powerups import *
+from Animation import animation
 from sys import exit
 
 pygame.init()
@@ -286,6 +287,20 @@ def selecaoModo():
                         return 1
                     elif arrow_position==-1:
                         return 2
+
+def startAnimation(previousData, newData):
+    anim = animation(previousData, newData)
+    animationRunning = True
+    while animationRunning:
+        anim_ticks = clock.tick()
+
+        for event in pygame.event.get():
+          if event.type == KEYDOWN:
+              if event.key == K_SPACE:
+                  animationRunning = False
+                
+        anim.update(pygame, screen)
+        
 
 #Function for displaying game status
 def status(gamemode,gene1,gene2,gene3,gene4,gene5):
@@ -736,8 +751,10 @@ while playagain:
   #Send of chromosomes and fitness scores to the Genetic Pool
   if gamemode==2:
           enemiesData=getEnemiesData()
+          previousData = enemiesData
           g = geneticPool(enemiesData)
           enemiesData = g.enemiesData
+          newData = enemiesData
 
           #New chromosomes
           DNA1=enemiesData[4][0]
@@ -745,6 +762,9 @@ while playagain:
           DNA3=enemiesData[2][0]
           DNA4=enemiesData[1][0]
           DNA5=enemiesData[0][0]
+
+          startAnimation(previousData, newData)
+            
   else:
           DNA1=["","","","","","","",""]
           DNA2=["","","","","","","",""]
