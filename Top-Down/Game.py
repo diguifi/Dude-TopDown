@@ -33,10 +33,10 @@ from GeneticPool import geneticPool
 from Powerups import *
 from sys import exit
 
+pygame.mixer.pre_init(44100, -16, 2, 512)
+pygame.mixer.init()
 pygame.init()
 relat=False
-pygame.mixer.pre_init(22050,16,2,4096)
-#pygame.mixer.init()
 
 #Function to load images
 def load_image(image_loaded,tipo):
