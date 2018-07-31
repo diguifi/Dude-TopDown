@@ -31,5 +31,5 @@ To be able to execute the Game, must have the 'PyGame' Library, and then, execut
 - Code refactoring to make the game loop and variables part of an object
 - New maps for levels
 - Better in-game UI
-- Optimize music and sounds for better sync
+- ~Optimize music and sounds for better sync~
 - General optimization
