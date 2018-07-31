@@ -288,8 +288,8 @@ def selecaoModo():
                     elif arrow_position==-1:
                         return 2
 
-def startAnimation(previousData, newData):
-    anim = animation(screen, previousData, newData, enemiesSpritesList)
+def startAnimation(previousData, newData, chosenOnes):
+    anim = animation(screen, previousData, newData, chosenOnes, enemiesSpritesList)
     animationRunning = True
     while animationRunning:
         anim_ticks = clock.tick()
@@ -756,7 +756,9 @@ while playagain:
           
           g = geneticPool(enemiesData)
           enemiesData = g.enemiesData
-          newData = enemiesData
+
+          chosenOnes = [g.enemiesDataSelecteds[0], g.enemiesDataSelecteds[1]]
+          newData = g.enemiesData
 
           #New chromosomes
           DNA1=enemiesData[4][0]
@@ -765,7 +767,7 @@ while playagain:
           DNA4=enemiesData[1][0]
           DNA5=enemiesData[0][0]
 
-          startAnimation(previousData, newData)
+          startAnimation(previousData, newData, chosenOnes)
             
   else:
           DNA1=["","","","","","","",""]

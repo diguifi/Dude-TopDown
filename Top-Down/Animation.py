@@ -26,23 +26,51 @@ import os
 from Configs import *
 
 class animation():
-    def __init__(self, screen, previousData, newData, enemiesSpritesList):
+    def __init__(self, screen, previousData, newData, chosenOnes, enemiesSpritesList):
         self.previousData = previousData
         self.newData = newData
+        self.chosenOnes = chosenOnes
+        self.chosenOnesSprites = [0,0]
         self.enemiesSpritesList = enemiesSpritesList
         self.enemiesSpritesList2 = enemiesSpritesList
+        self.enemiesSpritesList3 = enemiesSpritesList
         self.screenCenterX = screen.get_rect().centerx
         self.screenCenterY = screen.get_rect().centery
-        self.listPositions = [[((LARGURA/6)*1, (ALTURA/8)*3),
-                               ((LARGURA/6)*1, (ALTURA/8)*6)],
-                              [((LARGURA/6)*2, (ALTURA/8)*3),
-                               ((LARGURA/6)*2, (ALTURA/8)*6)],
-                              [((LARGURA/6)*3, (ALTURA/8)*3),
-                               ((LARGURA/6)*3, (ALTURA/8)*6)],
-                              [((LARGURA/6)*4, (ALTURA/8)*3),
-                               ((LARGURA/6)*4, (ALTURA/8)*6)],
-                              [((LARGURA/6)*5, (ALTURA/8)*3),
-                               ((LARGURA/6)*5, (ALTURA/8)*6)]]
+        self.listPositions = [[((LARGURA/6)*1, (ALTURA/9)*3),
+                               ((LARGURA/6)*1, (ALTURA/10)*9),
+                               ((LARGURA/8)*3, (ALTURA/10)*5),
+                               ((LARGURA/8)*5, (ALTURA/10)*5)],
+                              [((LARGURA/6)*2, (ALTURA/9)*3),
+                               ((LARGURA/6)*2, (ALTURA/10)*9),
+                               ((LARGURA/8)*3, (ALTURA/10)*5),
+                               ((LARGURA/8)*5, (ALTURA/10)*5)],
+                              [((LARGURA/6)*3, (ALTURA/9)*3),
+                               ((LARGURA/6)*3, (ALTURA/10)*9),
+                               ((LARGURA/8)*3, (ALTURA/10)*5),
+                               ((LARGURA/8)*5, (ALTURA/10)*5)],
+                              [((LARGURA/6)*4, (ALTURA/9)*3),
+                               ((LARGURA/6)*4, (ALTURA/10)*9),
+                               ((LARGURA/8)*3, (ALTURA/10)*5),
+                               ((LARGURA/8)*5, (ALTURA/10)*5)],
+                              [((LARGURA/6)*5, (ALTURA/9)*3),
+                               ((LARGURA/6)*5, (ALTURA/10)*9),
+                               ((LARGURA/8)*3, (ALTURA/10)*5),
+                               ((LARGURA/8)*5, (ALTURA/10)*5)]]
+
+        self.getChosenOnesSprites()
+
+    def getChosenOnesSprites(self):
+        i = 0
+        j = 0
+        while j < 2:
+            while i < len(self.previousData):
+                if self.previousData[i][0] == self.chosenOnes[j][0]:
+                    self.chosenOnesSprites[j] = i
+
+                i+=1
+
+            i=0
+            j+=1
 
     def update(self, pygame, screen):
         screen.fill(PRETO)
@@ -52,6 +80,9 @@ class animation():
         screen.blit(pygame.transform.scale(self.enemiesSpritesList[2],(30,30)), self.listPositions[2][0])
         screen.blit(pygame.transform.scale(self.enemiesSpritesList[3],(30,30)), self.listPositions[3][0])
         screen.blit(pygame.transform.scale(self.enemiesSpritesList[4],(30,30)), self.listPositions[4][0])
+
+        screen.blit(pygame.transform.scale(self.enemiesSpritesList3[self.chosenOnesSprites[0]],(30,30)), self.listPositions[self.chosenOnesSprites[0]][2])
+        screen.blit(pygame.transform.scale(self.enemiesSpritesList3[self.chosenOnesSprites[1]],(30,30)), self.listPositions[self.chosenOnesSprites[1]][3])
 
         screen.blit(pygame.transform.scale(self.enemiesSpritesList2[0],(30,30)), self.listPositions[0][1])
         screen.blit(pygame.transform.scale(self.enemiesSpritesList2[1],(30,30)), self.listPositions[1][1])
@@ -72,20 +103,30 @@ class animation():
         textpos.centery = self.screenCenterY - 150
         screen.blit(text, textpos)
         font = pygame.font.Font(None, 17)
-        text = font.render("Before:"+str(self.previousData), 1, BRANCO)
+        text = font.render("Before: "+str(self.previousData), 1, BRANCO)
         textpos = text.get_rect()
         textpos.centerx = self.screenCenterX
-        textpos.centery = (ALTURA/8)*3 + 40
+        textpos.centery = self.listPositions[0][0][1] + 40
         screen.blit(text, textpos)
-        text = font.render("After:"+str(self.newData), 1, BRANCO)
+        text = font.render(str(self.chosenOnes[0]), 1, BRANCO)
+        textpos = text.get_rect()
+        textpos.centerx = self.listPositions[0][2][0]
+        textpos.centery = self.listPositions[0][2][1] + 40
+        screen.blit(text, textpos)
+        text = font.render(str(self.chosenOnes[1]), 1, BRANCO)
+        textpos = text.get_rect()
+        textpos.centerx = self.listPositions[0][3][0]
+        textpos.centery = self.listPositions[0][3][1] + 40
+        screen.blit(text, textpos)
+        text = font.render("After: "+str(self.newData), 1, BRANCO)
         textpos = text.get_rect()
         textpos.centerx = self.screenCenterX
-        textpos.centery = (ALTURA/8)*6 + 40
+        textpos.centery = self.listPositions[0][1][1] + 40
         screen.blit(text, textpos)
         font = pygame.font.Font(None, 25)
         text = font.render("Press space to continue", 1, BRANCO)
         textpos = text.get_rect()
         textpos.centerx = self.screenCenterX
-        textpos.centery = self.screenCenterY + 200
+        textpos.centery = self.screenCenterY + 250
         screen.blit(text, textpos)
         pygame.display.flip()
