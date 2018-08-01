@@ -68,7 +68,7 @@ A chromossome is represented as a list, like so:
 
 ![](https://i.imgur.com/A7L2lUN.png)
 
-Each index of the list represents a certain caracteristic that the enemy has:
+Each index of the list represents a certain caracteristic that the enemy has:  
 ![](https://i.imgur.com/pVFvbjH.png)
 
 - A: Enemy's movement type. There are 10 different ways an enemy can move and this index indicates wich one is applied to this enemy
