@@ -40,7 +40,7 @@ SPRITE_AMMO = p+'/images/sprites/ammo.png'
 
 #ENEMIES CONFIGS
 SPEED_ENEMY = 100
-LIFE_ENEMY = 600
+LIFE_ENEMY = 10
 MUTATION_RATE = 0.01
 SHOW_FOV = False
 SPRITE_ENEMY = p+'/images/sprites/enemy.png'

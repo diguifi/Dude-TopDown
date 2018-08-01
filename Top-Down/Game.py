@@ -31,6 +31,7 @@ from Player import dude
 from Shot import shot
 from GeneticPool import geneticPool
 from Powerups import *
+from Animation import animation
 from sys import exit
 
 pygame.mixer.pre_init(44100, -16, 2, 512)
@@ -76,13 +77,13 @@ def pause():
 #Pause draw function
 def drawpause():
     font = pygame.font.Font(None, 48)
-    text1 = font.render("PAUSE", 1, (10, 10, 10))
+    text1 = font.render("PAUSE", 1, BRANCO)
     text1pos = text1.get_rect()
     text1pos.centerx = screen.get_rect().centerx
     text1pos.centery = screen.get_rect().centery
     screen.blit(text1, text1pos)
     font = pygame.font.Font(None, 36)
-    text2 = font.render("Pressione qualquer tecla para continuar", 1, (10,10,10))
+    text2 = font.render("Pressione qualquer tecla para continuar", 1, BRANCO)
     text2pos = text2.get_rect()
     text2pos.centerx = screen.get_rect().centerx
     text2pos.centery = screen.get_rect().centery + 50
@@ -287,6 +288,25 @@ def selecaoModo():
                     elif arrow_position==-1:
                         return 2
 
+def startAnimation(previousData, newData, chosenOnes):
+    anim = animation(screen, previousData, newData, chosenOnes, enemiesSpritesList, sprite_ec)
+    animationRunning = True
+    while animationRunning:
+        pause_ticks = clock.tick()
+
+        for event in pygame.event.get():
+          if event.type == KEYDOWN:
+              if event.key == K_SPACE:
+                  animationRunning = False
+              elif event.key == K_ESCAPE:
+                  listaRound.append([life,pontos,minutos,segundos])
+                  enemiesData=getEnemiesData()
+                  listaCrom.append(enemiesData)
+                  sair()
+                
+        anim.update(pygame, screen, pause_ticks)
+        
+
 #Function for displaying game status
 def status(gamemode,gene1,gene2,gene3,gene4,gene5):
     font = pygame.font.Font("fonts/font.ttf", 18)
@@ -407,6 +427,7 @@ sprite_sh = load_image(SPRITE_SHIELD,"sprite")
 sprite_hp = load_image(SPRITE_HEALTH,"sprite")
 sprite_pts = load_image(SPRITE_POINTS,"sprite")
 sprite_arrow = pygame.image.load(SPRITE_ARROW).convert_alpha()
+enemiesSpritesList = [sprite_e, sprite_e2, sprite_e3, sprite_e4, sprite_e5]
 
 #Powerups initialization
 ammoBox = ammobox(sprite_a)
@@ -736,8 +757,13 @@ while playagain:
   #Send of chromosomes and fitness scores to the Genetic Pool
   if gamemode==2:
           enemiesData=getEnemiesData()
+          previousData = enemiesData
+          
           g = geneticPool(enemiesData)
           enemiesData = g.enemiesData
+
+          chosenOnes = [g.enemiesDataSelecteds[0], g.enemiesDataSelecteds[1]]
+          newData = g.enemiesData
 
           #New chromosomes
           DNA1=enemiesData[4][0]
@@ -745,6 +771,9 @@ while playagain:
           DNA3=enemiesData[2][0]
           DNA4=enemiesData[1][0]
           DNA5=enemiesData[0][0]
+
+          startAnimation(previousData, newData, chosenOnes)
+            
   else:
           DNA1=["","","","","","","",""]
           DNA2=["","","","","","","",""]
