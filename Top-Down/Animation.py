@@ -26,36 +26,51 @@ import os
 from Configs import *
 
 class animation():
-    def __init__(self, screen, previousData, newData, chosenOnes, enemiesSpritesList):
+    def __init__(self, screen, previousData, newData, chosenOnes, enemiesSpritesList, fovSprite):
+        self.animationSpeed = 20
+        self.animationPart = 1
+        self.timeCount = 0
         self.previousData = previousData
         self.newData = newData
         self.chosenOnes = chosenOnes
         self.chosenOnesSprites = [0,0]
+        self.fovSprite = fovSprite
         self.enemiesSpritesList = enemiesSpritesList
         self.enemiesSpritesList2 = enemiesSpritesList
         self.enemiesSpritesList3 = enemiesSpritesList
+        self.enemiesSpritesList4 = enemiesSpritesList
         self.screenCenterX = screen.get_rect().centerx
         self.screenCenterY = screen.get_rect().centery
-        self.listPositions = [[((LARGURA/6)*1, (ALTURA/9)*3),
+        self.listPositions = [[((LARGURA/6)*1, (ALTURA/9)*2),
                                ((LARGURA/6)*1, (ALTURA/10)*9),
-                               ((LARGURA/8)*3, (ALTURA/10)*5),
-                               ((LARGURA/8)*5, (ALTURA/10)*5)],
-                              [((LARGURA/6)*2, (ALTURA/9)*3),
+                               ((LARGURA/8)*3, (ALTURA/10)*4),
+                               ((LARGURA/8)*5, (ALTURA/10)*4),
+                               ((LARGURA/8)*3, (ALTURA/11)*7),
+                               ((LARGURA/8)*5, (ALTURA/11)*7)],
+                              [((LARGURA/6)*2, (ALTURA/9)*2),
                                ((LARGURA/6)*2, (ALTURA/10)*9),
-                               ((LARGURA/8)*3, (ALTURA/10)*5),
-                               ((LARGURA/8)*5, (ALTURA/10)*5)],
-                              [((LARGURA/6)*3, (ALTURA/9)*3),
+                               ((LARGURA/8)*3, (ALTURA/10)*4),
+                               ((LARGURA/8)*5, (ALTURA/10)*4),
+                               ((LARGURA/8)*3, (ALTURA/11)*7),
+                               ((LARGURA/8)*5, (ALTURA/11)*7)],
+                              [((LARGURA/6)*3, (ALTURA/9)*2),
                                ((LARGURA/6)*3, (ALTURA/10)*9),
-                               ((LARGURA/8)*3, (ALTURA/10)*5),
-                               ((LARGURA/8)*5, (ALTURA/10)*5)],
-                              [((LARGURA/6)*4, (ALTURA/9)*3),
+                               ((LARGURA/8)*3, (ALTURA/10)*4),
+                               ((LARGURA/8)*5, (ALTURA/10)*4),
+                               ((LARGURA/8)*3, (ALTURA/11)*7),
+                               ((LARGURA/8)*5, (ALTURA/11)*7)],
+                              [((LARGURA/6)*4, (ALTURA/9)*2),
                                ((LARGURA/6)*4, (ALTURA/10)*9),
-                               ((LARGURA/8)*3, (ALTURA/10)*5),
-                               ((LARGURA/8)*5, (ALTURA/10)*5)],
-                              [((LARGURA/6)*5, (ALTURA/9)*3),
+                               ((LARGURA/8)*3, (ALTURA/10)*4),
+                               ((LARGURA/8)*5, (ALTURA/10)*4),
+                               ((LARGURA/8)*3, (ALTURA/11)*7),
+                               ((LARGURA/8)*5, (ALTURA/11)*7)],
+                              [((LARGURA/6)*5, (ALTURA/9)*2),
                                ((LARGURA/6)*5, (ALTURA/10)*9),
-                               ((LARGURA/8)*3, (ALTURA/10)*5),
-                               ((LARGURA/8)*5, (ALTURA/10)*5)]]
+                               ((LARGURA/8)*3, (ALTURA/10)*4),
+                               ((LARGURA/8)*5, (ALTURA/10)*4),
+                               ((LARGURA/8)*3, (ALTURA/11)*7),
+                               ((LARGURA/8)*5, (ALTURA/11)*7)]]
 
         self.getChosenOnesSprites()
 
@@ -72,61 +87,123 @@ class animation():
             i=0
             j+=1
 
-    def update(self, pygame, screen):
+    def update(self, pygame, screen, pause_ticks):
+        if self.timeCount < 7600:
+            self.timeCount += pause_ticks
+
+        if self.timeCount >= 1500:
+            self.animationPart = 1
+        if self.timeCount >= 3500:
+            self.animationPart = 2
+        if self.timeCount >= 5500:
+            self.animationPart = 3
+        if self.timeCount >= 7000:
+            self.animationPart = 4
+
+        
         screen.fill(PRETO)
 
-        screen.blit(pygame.transform.scale(self.enemiesSpritesList[0],(30,30)), self.listPositions[0][0])
-        screen.blit(pygame.transform.scale(self.enemiesSpritesList[1],(30,30)), self.listPositions[1][0])
-        screen.blit(pygame.transform.scale(self.enemiesSpritesList[2],(30,30)), self.listPositions[2][0])
-        screen.blit(pygame.transform.scale(self.enemiesSpritesList[3],(30,30)), self.listPositions[3][0])
-        screen.blit(pygame.transform.scale(self.enemiesSpritesList[4],(30,30)), self.listPositions[4][0])
-
-        screen.blit(pygame.transform.scale(self.enemiesSpritesList3[self.chosenOnesSprites[0]],(30,30)), self.listPositions[self.chosenOnesSprites[0]][2])
-        screen.blit(pygame.transform.scale(self.enemiesSpritesList3[self.chosenOnesSprites[1]],(30,30)), self.listPositions[self.chosenOnesSprites[1]][3])
-
-        screen.blit(pygame.transform.scale(self.enemiesSpritesList2[0],(30,30)), self.listPositions[0][1])
-        screen.blit(pygame.transform.scale(self.enemiesSpritesList2[1],(30,30)), self.listPositions[1][1])
-        screen.blit(pygame.transform.scale(self.enemiesSpritesList2[2],(30,30)), self.listPositions[2][1])
-        screen.blit(pygame.transform.scale(self.enemiesSpritesList2[3],(30,30)), self.listPositions[3][1])
-        screen.blit(pygame.transform.scale(self.enemiesSpritesList2[4],(30,30)), self.listPositions[4][1])
-        
         font = pygame.font.Font(None, 48)
         text = font.render("CROSSOVER ANIMATION", 1, BRANCO)
         textpos = text.get_rect()
         textpos.centerx = self.screenCenterX
         textpos.centery = self.screenCenterY - 200
         screen.blit(text, textpos)
-        font = pygame.font.Font(None, 36)
-        text = font.render("soon there will be an animation here", 1, BRANCO)
-        textpos = text.get_rect()
-        textpos.centerx = self.screenCenterX
-        textpos.centery = self.screenCenterY - 150
-        screen.blit(text, textpos)
+
+        if self.animationPart >= 1:
+            self.drawBefore(pygame, screen)
+        if self.animationPart >= 2:
+            self.drawSelected(pygame, screen)
+        if self.animationPart >= 3:
+            self.drawChildren(pygame, screen)
+        if self.animationPart >= 4:
+            self.drawAfter(pygame, screen)
+
+        pygame.display.flip()
+
+    def drawBefore(self, pygame, screen):
+        screen.blit(pygame.transform.scale(self.enemiesSpritesList[0],(30,30)), self.listPositions[0][0])
+        screen.blit(pygame.transform.scale(self.enemiesSpritesList[1],(30,30)), self.listPositions[1][0])
+        screen.blit(pygame.transform.scale(self.enemiesSpritesList[2],(30,30)), self.listPositions[2][0])
+        screen.blit(pygame.transform.scale(self.enemiesSpritesList[3],(30,30)), self.listPositions[3][0])
+        screen.blit(pygame.transform.scale(self.enemiesSpritesList[4],(30,30)), self.listPositions[4][0])
+
         font = pygame.font.Font(None, 17)
         text = font.render("Before: "+str(self.previousData), 1, BRANCO)
         textpos = text.get_rect()
         textpos.centerx = self.screenCenterX
         textpos.centery = self.listPositions[0][0][1] + 40
         screen.blit(text, textpos)
+
+
+    def drawSelected(self, pygame, screen):
+        screen.blit(pygame.transform.scale(self.enemiesSpritesList3[self.chosenOnesSprites[0]],(30,30)), self.listPositions[self.chosenOnesSprites[0]][2])
+        screen.blit(pygame.transform.scale(self.enemiesSpritesList3[self.chosenOnesSprites[1]],(30,30)), self.listPositions[self.chosenOnesSprites[1]][3])
+
+        screen.blit(pygame.transform.scale(self.fovSprite,(30,30)), self.listPositions[self.chosenOnesSprites[0]][0])
+        screen.blit(pygame.transform.scale(self.fovSprite,(30,30)), self.listPositions[self.chosenOnesSprites[1]][0])
+
+        font = pygame.font.Font(None, 17)
+        text = font.render("Selected for crossover!", 1, VERMELHO)
+        textpos = text.get_rect()
+        textpos.centerx = self.listPositions[self.chosenOnesSprites[0]][0][0] + 15
+        textpos.centery = self.listPositions[self.chosenOnesSprites[0]][0][1] + 55
+        screen.blit(text, textpos)
+        text = font.render("Selected for crossover!", 1, VERMELHO)
+        textpos = text.get_rect()
+        textpos.centerx = self.listPositions[self.chosenOnesSprites[1]][0][0] + 15
+        textpos.centery = self.listPositions[self.chosenOnesSprites[1]][0][1] + 55
+        screen.blit(text, textpos)
+
         text = font.render(str(self.chosenOnes[0]), 1, BRANCO)
         textpos = text.get_rect()
-        textpos.centerx = self.listPositions[0][2][0]
+        textpos.centerx = self.listPositions[0][2][0] + 15
         textpos.centery = self.listPositions[0][2][1] + 40
         screen.blit(text, textpos)
         text = font.render(str(self.chosenOnes[1]), 1, BRANCO)
         textpos = text.get_rect()
-        textpos.centerx = self.listPositions[0][3][0]
+        textpos.centerx = self.listPositions[0][3][0] + 15
         textpos.centery = self.listPositions[0][3][1] + 40
         screen.blit(text, textpos)
+
+    def drawChildren(self, pygame, screen):
+        screen.blit(pygame.transform.scale(self.enemiesSpritesList4[0],(30,30)), self.listPositions[0][4])
+        screen.blit(pygame.transform.scale(self.enemiesSpritesList4[1],(30,30)), self.listPositions[1][5])
+
+        font = pygame.font.Font(None, 17)
+        text = font.render(str(self.newData[0][0]), 1, BRANCO)
+        textpos = text.get_rect()
+        textpos.centerx = self.listPositions[0][4][0] + 15
+        textpos.centery = self.listPositions[0][4][1] + 40
+        screen.blit(text, textpos)
+        text = font.render(str(self.newData[1][0]), 1, BRANCO)
+        textpos = text.get_rect()
+        textpos.centerx = self.listPositions[0][5][0] + 15
+        textpos.centery = self.listPositions[0][5][1] + 40
+        screen.blit(text, textpos)
+        text = font.render("Children", 1, VERMELHO)
+        textpos = text.get_rect()
+        textpos.centerx = (LARGURA/2)
+        textpos.centery = self.listPositions[0][4][1] + 40
+        screen.blit(text, textpos)
+
+    def drawAfter(self, pygame, screen):
+        screen.blit(pygame.transform.scale(self.enemiesSpritesList2[0],(30,30)), self.listPositions[0][1])
+        screen.blit(pygame.transform.scale(self.enemiesSpritesList2[1],(30,30)), self.listPositions[1][1])
+        screen.blit(pygame.transform.scale(self.enemiesSpritesList2[2],(30,30)), self.listPositions[2][1])
+        screen.blit(pygame.transform.scale(self.enemiesSpritesList2[3],(30,30)), self.listPositions[3][1])
+        screen.blit(pygame.transform.scale(self.enemiesSpritesList2[4],(30,30)), self.listPositions[4][1])
+        
+        font = pygame.font.Font(None, 17)
         text = font.render("After: "+str(self.newData), 1, BRANCO)
         textpos = text.get_rect()
         textpos.centerx = self.screenCenterX
         textpos.centery = self.listPositions[0][1][1] + 40
         screen.blit(text, textpos)
-        font = pygame.font.Font(None, 25)
+
+        font = pygame.font.Font(None, 25)   
         text = font.render("Press space to continue", 1, BRANCO)
         textpos = text.get_rect()
         textpos.centerx = self.screenCenterX
         textpos.centery = self.screenCenterY + 250
         screen.blit(text, textpos)
-        pygame.display.flip()

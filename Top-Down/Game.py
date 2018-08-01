@@ -289,17 +289,22 @@ def selecaoModo():
                         return 2
 
 def startAnimation(previousData, newData, chosenOnes):
-    anim = animation(screen, previousData, newData, chosenOnes, enemiesSpritesList)
+    anim = animation(screen, previousData, newData, chosenOnes, enemiesSpritesList, sprite_ec)
     animationRunning = True
     while animationRunning:
-        anim_ticks = clock.tick()
+        pause_ticks = clock.tick()
 
         for event in pygame.event.get():
           if event.type == KEYDOWN:
               if event.key == K_SPACE:
                   animationRunning = False
+              elif event.key == K_ESCAPE:
+                  listaRound.append([life,pontos,minutos,segundos])
+                  enemiesData=getEnemiesData()
+                  listaCrom.append(enemiesData)
+                  sair()
                 
-        anim.update(pygame, screen)
+        anim.update(pygame, screen, pause_ticks)
         
 
 #Function for displaying game status
