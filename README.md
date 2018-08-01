@@ -48,7 +48,7 @@ Genetic Algorithms have several approaches for this method and the selected one 
 
 ### Mutation
 In biological evolution, mutations happen all the time and are responsible to create bad results or good results. Its thanks to mutation that we are no longer a single celled organism.  
-A Genetic Algorithm can sometimes reach what is called a "Local Optimal Result". This is basically finding a nice result but not the best. In order to avoid being stuck on this Local Optimal Result we must have a mutation rate. The mutation rate's job is to change a certain part of the chromossome randomly and this may cause a new caracteristic to happen, that is very positive for the goal to be selected.
+A Genetic Algorithm can sometimes reach what is called a "Local Optimal Result". This is basically finding a nice result but not the best. In order to avoid being stuck on this Local Optimal Result we must have a mutation rate. The mutation rate's job is to change a certain part of the chromossome randomly and this may cause a new caracteristic to happen, that can be very positive (or negative) to reach the goal to be selected.
 
 ## How it is represented ingame
 
@@ -62,25 +62,25 @@ A chromossome is represented as a list, like so:
 Each index of the list represents a certain caracteristic that the enemy has:  
 ![](https://i.imgur.com/pVFvbjH.png)
 
-- A: Enemy's movement type. There are 10 different ways an enemy can move and this index indicates wich one is applied to this enemy
-- B: Enemy's speed. Ranges from 70 to 130 units
-- C: Enemy's relation to the item HP. Ranges from 0 to 2, where, if 0 the enemy doesnt care for the item, if 1 the enemy always reaches from the item as soon it enters the enemy's field of view and if 2, the enemy avoids the item, reverting its trajectory.
-- D: Enemy's relation to the item Shield. Ranges from 0 to 2, where, if 0 the enemy doesnt care for the item, if 1 the enemy always reaches from the item as soon it enters the enemy's field of view and if 2, the enemy avoids the item, reverting its trajectory.
-- E: Enemy's relation to the item Points. Ranges from 0 to 2, where, if 0 the enemy doesnt care for the item, if 1 the enemy always reaches from the item as soon it enters the enemy's field of view and if 2, the enemy avoids the item, reverting its trajectory.
-- F: Enemy's relation to the Player. Ranges from 0 to 1, where, if 0 the enemy doesnt care for the player and if 1 the enemy always reaches from the player as soon it enters the enemy's field of view.
-- G: Size of the Field of View. Ranges from 0.5 to 2
-- H: Enemy's life. Ranges from 0.5 to 2
+- **A:** Enemy's movement type. There are 10 different ways an enemy can move and this index indicates wich one is applied to this enemy
+- **B:** Enemy's speed. Ranges from 70 to 130 units
+- **C:** Enemy's relation to the item HP. Ranges from 0 to 2. If 0 the enemy doesnt care for the item, if 1 the enemy always reaches for the item as soon it enters the enemy's field of view and if 2, the enemy avoids the item, reverting its trajectory.
+- **D:** Enemy's relation to the item Shield. Ranges from 0 to 2. If 0 the enemy doesnt care for the item, if 1 the enemy always reaches for the item as soon it enters the enemy's field of view and if 2, the enemy avoids the item, reverting its trajectory.
+- **E:** Enemy's relation to the item Points. Ranges from 0 to 2. If 0 the enemy doesnt care for the item, if 1 the enemy always reaches for the item as soon it enters the enemy's field of view and if 2, the enemy avoids the item, reverting its trajectory.
+- **F:** Enemy's relation to the Player. Ranges from 0 to 1. If 0 the enemy doesnt care for the player and if 1 the enemy always reaches for the player as soon it enters the enemy's field of view.
+- **G:** Size of the Field of View. Ranges from 0.5 to 2
+- **H:** Enemy's life. Ranges from 0.5 to 2
 
-The enemies with best fitness scores (a score that evaluates how well the enemy did) have better chances to pass its genome to the next round.
+The enemies with best _fitness scores_ (a score that evaluates how well the enemy did) have better chances to pass its genome to the next round.
 
 ### Who was selected
-On the first round, all chromossomes are random. To know who was selected on the next round and so on, just look at the two last enemies on the list on the bottom of the screen and their children are the first two. The one on the middle is always random.
-An animation happens each next level to show who was selected, how are their children and the new enemies' you will face next round.
+On the first round, all chromossomes are random. To know who was selected on the next round and so on, just look at the two last enemies on the list at the bottom of the screen and their children are the first two. The one on the middle is always random.
+To visualize better, an animation happens each next level to show who was selected, how are their children and the new enemies' you will face next round.
 
 ![](https://i.imgur.com/5HkxQRJ.png)
 
 ## Thats it!
-Thanks for showing interest on this work and feel free to contribute as you like. Any questions you can find my contact info [here](https://diguifi.github.io)
+Thanks for showing interest on this work and feel free to contribute as you like. If any questions, you can find my contact info [here](https://diguifi.github.io)
 
 # TODOs
 
