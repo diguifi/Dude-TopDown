@@ -23,15 +23,6 @@ To be able to execute the Game, must have the 'PyGame' Library, and then, execut
         - use your package manager to install 'pip' (Ex - 'sudo apt-get install pip')
         - run 'pip install pygame'
 
-# TODOs
-
-- ~Animation of genetic pool methods when passing a level~ (must be improved)
-- Code refactoring to make the game loop and variables part of an object
-- New maps for levels
-- Better in-game UI
-- ~Optimize music and sounds for better sync~
-- General optimization
-
 # Explanation
 
 The game itself doesnt make clear of what is happening on the Genetic Algorithm mode, so I'll try to sum it up here (i'm also planning a video explaining how it works, and for the 1.0 release I also aim for an in-game option that explains the game, like a "How it works" option on the menu).
@@ -90,3 +81,12 @@ An animation happens each next level to show who was selected, how are their chi
 
 ## Thats it!
 Thanks for showing interest on this work and feel free to contribute as you like. Any questions you can find my contact info [here](https://diguifi.github.io)
+
+# TODOs
+
+- ~Animation of genetic pool methods when passing a level~ (must be improved)
+- Code refactoring to make the game loop and variables part of an object
+- New maps for levels
+- Better in-game UI
+- ~Optimize music and sounds for better sync~
+- General optimization
