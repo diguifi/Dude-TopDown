@@ -34,6 +34,7 @@ class animation():
         self.newData = newData
         self.chosenOnes = chosenOnes
         self.chosenOnesSprites = [0,0]
+        self.chosenOnesFov = [0,0]
         self.fovSprite = fovSprite
         self.enemiesSpritesList = enemiesSpritesList
         self.enemiesSpritesList2 = enemiesSpritesList
@@ -86,6 +87,9 @@ class animation():
 
             i=0
             j+=1
+
+        self.chosenOnesFov[0] = self.chosenOnesSprites[0]
+        self.chosenOnesFov[1] = self.chosenOnesSprites[1]
 
     def update(self, pygame, screen, pause_ticks):
         if self.timeCount < 7600:
@@ -140,19 +144,19 @@ class animation():
         screen.blit(pygame.transform.scale(self.enemiesSpritesList3[self.chosenOnesSprites[0]],(30,30)), self.listPositions[self.chosenOnesSprites[0]][2])
         screen.blit(pygame.transform.scale(self.enemiesSpritesList3[self.chosenOnesSprites[1]],(30,30)), self.listPositions[self.chosenOnesSprites[1]][3])
 
-        screen.blit(pygame.transform.scale(self.fovSprite,(30,30)), self.listPositions[self.chosenOnesSprites[0]][0])
-        screen.blit(pygame.transform.scale(self.fovSprite,(30,30)), self.listPositions[self.chosenOnesSprites[1]][0])
+        screen.blit(pygame.transform.scale(self.fovSprite,(30,30)), self.listPositions[self.chosenOnesFov[0]][0])
+        screen.blit(pygame.transform.scale(self.fovSprite,(30,30)), self.listPositions[self.chosenOnesFov[1]][0])
 
         font = pygame.font.Font(None, 17)
         text = font.render("Selected for crossover!", 1, VERMELHO)
         textpos = text.get_rect()
-        textpos.centerx = self.listPositions[self.chosenOnesSprites[0]][0][0] + 15
-        textpos.centery = self.listPositions[self.chosenOnesSprites[0]][0][1] + 55
+        textpos.centerx = self.listPositions[self.chosenOnesFov[0]][0][0] + 15
+        textpos.centery = self.listPositions[self.chosenOnesFov[0]][0][1] + 55
         screen.blit(text, textpos)
         text = font.render("Selected for crossover!", 1, VERMELHO)
         textpos = text.get_rect()
-        textpos.centerx = self.listPositions[self.chosenOnesSprites[1]][0][0] + 15
-        textpos.centery = self.listPositions[self.chosenOnesSprites[1]][0][1] + 55
+        textpos.centerx = self.listPositions[self.chosenOnesFov[1]][0][0] + 15
+        textpos.centery = self.listPositions[self.chosenOnesFov[1]][0][1] + 55
         screen.blit(text, textpos)
 
         text = font.render(str(self.chosenOnes[0]), 1, BRANCO)
@@ -163,6 +167,11 @@ class animation():
         text = font.render(str(self.chosenOnes[1]), 1, BRANCO)
         textpos = text.get_rect()
         textpos.centerx = self.listPositions[0][3][0] + 15
+        textpos.centery = self.listPositions[0][3][1] + 40
+        screen.blit(text, textpos)
+        text = font.render("Parents", 1, VERMELHO)
+        textpos = text.get_rect()
+        textpos.centerx = (LARGURA/2)
         textpos.centery = self.listPositions[0][3][1] + 40
         screen.blit(text, textpos)
 
@@ -188,6 +197,9 @@ class animation():
         screen.blit(text, textpos)
 
     def drawAfter(self, pygame, screen):
+        self.chosenOnesSprites[0] = 3
+        self.chosenOnesSprites[1] = 4
+        
         screen.blit(pygame.transform.scale(self.enemiesSpritesList2[0],(30,30)), self.listPositions[0][1])
         screen.blit(pygame.transform.scale(self.enemiesSpritesList2[1],(30,30)), self.listPositions[1][1])
         screen.blit(pygame.transform.scale(self.enemiesSpritesList2[2],(30,30)), self.listPositions[2][1])
