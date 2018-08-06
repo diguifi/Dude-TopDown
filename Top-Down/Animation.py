@@ -126,17 +126,47 @@ class animation():
         pygame.display.flip()
 
     def drawBefore(self, pygame, screen):
-        screen.blit(pygame.transform.scale(self.enemiesSpritesList[0],(30,30)), self.listPositions[0][0])
-        screen.blit(pygame.transform.scale(self.enemiesSpritesList[1],(30,30)), self.listPositions[1][0])
-        screen.blit(pygame.transform.scale(self.enemiesSpritesList[2],(30,30)), self.listPositions[2][0])
-        screen.blit(pygame.transform.scale(self.enemiesSpritesList[3],(30,30)), self.listPositions[3][0])
-        screen.blit(pygame.transform.scale(self.enemiesSpritesList[4],(30,30)), self.listPositions[4][0])
-
-        font = pygame.font.Font(None, 17)
-        text = font.render("Before: "+str(self.previousData), 1, BRANCO)
+        font = pygame.font.Font(None, 19)
+        text = font.render("Before:", 1, BRANCO)
         textpos = text.get_rect()
-        textpos.centerx = self.screenCenterX
+        textpos.centerx = self.listPositions[0][0][0] - 100
         textpos.centery = self.listPositions[0][0][1] + 40
+        screen.blit(text, textpos)
+        
+        screen.blit(pygame.transform.scale(self.enemiesSpritesList[0],(30,30)), self.listPositions[0][0])
+        font = pygame.font.Font(None, 17)
+        text = font.render(str(self.previousData[0]), 1, BRANCO)
+        textpos = text.get_rect()
+        textpos.centerx = self.listPositions[0][0][0] + 10
+        textpos.centery = self.listPositions[0][0][1] + 40
+        screen.blit(text, textpos)
+        
+        screen.blit(pygame.transform.scale(self.enemiesSpritesList[1],(30,30)), self.listPositions[1][0])
+        text = font.render(str(self.previousData[1]), 1, BRANCO)
+        textpos = text.get_rect()
+        textpos.centerx = self.listPositions[1][0][0] + 11
+        textpos.centery = self.listPositions[1][0][1] + 40
+        screen.blit(text, textpos)
+        
+        screen.blit(pygame.transform.scale(self.enemiesSpritesList[2],(30,30)), self.listPositions[2][0])
+        text = font.render(str(self.previousData[2]), 1, BRANCO)
+        textpos = text.get_rect()
+        textpos.centerx = self.listPositions[2][0][0] + 12
+        textpos.centery = self.listPositions[2][0][1] + 40
+        screen.blit(text, textpos)
+        
+        screen.blit(pygame.transform.scale(self.enemiesSpritesList[3],(30,30)), self.listPositions[3][0])
+        text = font.render(str(self.previousData[3]), 1, BRANCO)
+        textpos = text.get_rect()
+        textpos.centerx = self.listPositions[3][0][0] + 13
+        textpos.centery = self.listPositions[3][0][1] + 40
+        screen.blit(text, textpos)
+        
+        screen.blit(pygame.transform.scale(self.enemiesSpritesList[4],(30,30)), self.listPositions[4][0])
+        text = font.render(str(self.previousData[4]), 1, BRANCO)
+        textpos = text.get_rect()
+        textpos.centerx = self.listPositions[4][0][0] + 14
+        textpos.centery = self.listPositions[4][0][1] + 40
         screen.blit(text, textpos)
 
 
@@ -200,17 +230,47 @@ class animation():
         self.chosenOnesSprites[0] = 3
         self.chosenOnesSprites[1] = 4
         
-        screen.blit(pygame.transform.scale(self.enemiesSpritesList2[0],(30,30)), self.listPositions[0][1])
-        screen.blit(pygame.transform.scale(self.enemiesSpritesList2[1],(30,30)), self.listPositions[1][1])
-        screen.blit(pygame.transform.scale(self.enemiesSpritesList2[2],(30,30)), self.listPositions[2][1])
-        screen.blit(pygame.transform.scale(self.enemiesSpritesList2[3],(30,30)), self.listPositions[3][1])
-        screen.blit(pygame.transform.scale(self.enemiesSpritesList2[4],(30,30)), self.listPositions[4][1])
-        
-        font = pygame.font.Font(None, 17)
-        text = font.render("After: "+str(self.newData), 1, BRANCO)
+        font = pygame.font.Font(None, 19)
+        text = font.render("After:", 1, BRANCO)
         textpos = text.get_rect()
-        textpos.centerx = self.screenCenterX
+        textpos.centerx = self.listPositions[0][1][0] - 100
         textpos.centery = self.listPositions[0][1][1] + 40
+        screen.blit(text, textpos)
+        
+        screen.blit(pygame.transform.scale(self.enemiesSpritesList2[0],(30,30)), self.listPositions[0][1])
+        font = pygame.font.Font(None, 17)
+        text = font.render(str(self.newData[0][0]), 1, BRANCO)
+        textpos = text.get_rect()
+        textpos.centerx = self.listPositions[0][1][0] + 15
+        textpos.centery = self.listPositions[0][1][1] + 40
+        screen.blit(text, textpos)
+        
+        screen.blit(pygame.transform.scale(self.enemiesSpritesList2[1],(30,30)), self.listPositions[1][1])
+        text = font.render(str(self.newData[1][0]), 1, BRANCO)
+        textpos = text.get_rect()
+        textpos.centerx = self.listPositions[1][1][0] + 15
+        textpos.centery = self.listPositions[1][1][1] + 40
+        screen.blit(text, textpos)
+
+        screen.blit(pygame.transform.scale(self.enemiesSpritesList2[2],(30,30)), self.listPositions[2][1])
+        text = font.render(str(self.newData[2][0]), 1, BRANCO)
+        textpos = text.get_rect()
+        textpos.centerx = self.listPositions[2][1][0] + 15
+        textpos.centery = self.listPositions[2][1][1] + 40
+        screen.blit(text, textpos)
+        
+        screen.blit(pygame.transform.scale(self.enemiesSpritesList2[3],(30,30)), self.listPositions[3][1])
+        text = font.render(str(self.newData[3][0]), 1, BRANCO)
+        textpos = text.get_rect()
+        textpos.centerx = self.listPositions[3][1][0] + 15
+        textpos.centery = self.listPositions[3][1][1] + 40
+        screen.blit(text, textpos)
+        
+        screen.blit(pygame.transform.scale(self.enemiesSpritesList2[4],(30,30)), self.listPositions[4][1])
+        text = font.render(str(self.newData[4][0]), 1, BRANCO)
+        textpos = text.get_rect()
+        textpos.centerx = self.listPositions[4][1][0] + 15
+        textpos.centery = self.listPositions[4][1][1] + 40
         screen.blit(text, textpos)
 
         font = pygame.font.Font(None, 25)   
