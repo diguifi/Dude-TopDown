@@ -289,7 +289,7 @@ def selecaoModo():
                         return 2
 
 def startAnimation(previousData, newData, chosenOnes):
-    anim = animation(screen, previousData, newData, chosenOnes, enemiesSpritesList, sprite_ec)
+    anim = animation(screen, previousData, newData, chosenOnes, enemiesSpritesList, sprite_ec, pygame)
     animationRunning = True
     while animationRunning:
         pause_ticks = clock.tick()

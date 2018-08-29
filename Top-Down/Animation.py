@@ -24,9 +24,10 @@
 """
 import os
 from Configs import *
+p = os.getcwd()
 
 class animation():
-    def __init__(self, screen, previousData, newData, chosenOnes, enemiesSpritesList, fovSprite):
+    def __init__(self, screen, previousData, newData, chosenOnes, enemiesSpritesList, fovSprite, pygame):
         self.animationSpeed = 20
         self.animationPart = 1
         self.timeCount = 0
@@ -72,6 +73,11 @@ class animation():
                                ((LARGURA/8)*5, (ALTURA/10)*4),
                                ((LARGURA/8)*3, (ALTURA/11)*7),
                                ((LARGURA/8)*5, (ALTURA/11)*7)]]
+        self.listPoof = []
+        self.loadExplosionSprites(pygame)
+        self.timeCountPoof = 0
+        self.playedPoof = False
+        self.PooFrame = 0
 
         self.getChosenOnesSprites()
 
@@ -92,7 +98,7 @@ class animation():
         self.chosenOnesFov[1] = self.chosenOnesSprites[1]
 
     def update(self, pygame, screen, pause_ticks):
-        if self.timeCount < 7600:
+        if self.timeCount < 20600:
             self.timeCount += pause_ticks
 
         if self.timeCount >= 1500:
@@ -121,7 +127,46 @@ class animation():
         if self.animationPart >= 3:
             self.drawChildren(pygame, screen)
         if self.animationPart >= 4:
-            self.drawAfter(pygame, screen)
+            if not self.playedPoof:
+                self.timeCountPoof += pause_ticks
+                if (self.timeCountPoof >= 500):
+                    self.PooFrame = 10
+                elif (self.timeCountPoof >= 450):
+                    self.playPoofAnim(self.PooFrame, pygame, screen)
+                    self.PooFrame = 9
+                elif (self.timeCountPoof >= 400):
+                    self.playPoofAnim(self.PooFrame, pygame, screen)
+                    self.PooFrame = 8
+                elif (self.timeCountPoof >= 350):
+                    self.playPoofAnim(self.PooFrame, pygame, screen)
+                    self.PooFrame = 7
+                elif (self.timeCountPoof >= 300):
+                    self.playPoofAnim(self.PooFrame, pygame, screen)
+                    self.PooFrame = 6
+                elif (self.timeCountPoof >= 250):
+                    self.playPoofAnim(self.PooFrame, pygame, screen)
+                    self.PooFrame = 5
+                elif (self.timeCountPoof >= 200):
+                    self.playPoofAnim(self.PooFrame, pygame, screen)
+                    self.PooFrame = 4
+                elif (self.timeCountPoof >= 150):
+                    self.playPoofAnim(self.PooFrame, pygame, screen)
+                    self.PooFrame = 3
+                elif (self.timeCountPoof >= 100):
+                    self.playPoofAnim(self.PooFrame, pygame, screen)
+                    self.PooFrame = 2
+                elif (self.timeCountPoof >= 50):
+                    self.playPoofAnim(self.PooFrame, pygame, screen)
+                    self.PooFrame = 1
+                elif (self.timeCountPoof >= 0):
+                    self.playPoofAnim(self.PooFrame, pygame, screen)
+                    self.PooFrame = 0
+                    
+                if (self.PooFrame >= 10):
+                    self.playedPoof = True
+
+            if (self.playedPoof):
+                self.drawAfter(pygame, screen)
 
         pygame.display.flip()
 
@@ -279,3 +324,18 @@ class animation():
         textpos.centerx = self.screenCenterX
         textpos.centery = self.screenCenterY + 250
         screen.blit(text, textpos)
+
+    def loadExplosionSprites(self, pygame):
+        global p
+
+        for i in range(10):
+         image = pygame.image.load(p+'/images/sprites/poof/frame'+str(i+1)+'.png').convert_alpha()
+         x,y = pygame.Surface.get_width(image), pygame.Surface.get_height(image)
+         x=int(x*MULT_TAM)
+         y=int(y*MULT_TAM)
+         image = pygame.transform.scale(image,(x,y))        
+         self.listPoof.append(image)
+
+    def playPoofAnim(self, frame, pygame, screen):
+        screen.blit(pygame.transform.scale(self.listPoof[frame],(50,50)), (self.listPositions[self.chosenOnesSprites[0]][2][0] - 10, self.listPositions[self.chosenOnesSprites[0]][2][1] - 15))
+        screen.blit(pygame.transform.scale(self.listPoof[frame],(50,50)), (self.listPositions[self.chosenOnesSprites[0]][3][0] - 10, self.listPositions[self.chosenOnesSprites[0]][3][1] - 15))
