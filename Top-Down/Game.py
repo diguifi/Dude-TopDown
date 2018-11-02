@@ -68,7 +68,7 @@ def pause():
     global paused_ticks
     drawpause()
     while paused:
-        paused_ticks = clock.tick()
+        paused_ticks += clock.tick()
         for event in pygame.event.get():
             if event.type == KEYDOWN:
                 paused = False
@@ -196,7 +196,7 @@ def textoMenuPrincipal():
 def posmenu():
     screen.fill(PRETO)
     font = pygame.font.Font("fonts/font.ttf", 18)
-    txtTitle = font.render("Setas - movimentação", 1, BRANCO)
+    txtTitle = font.render("Setas - movimentaï¿½ï¿½o", 1, BRANCO)
     txt_rect = txtTitle.get_rect()
     txt_rect.midtop = (LARGURA/2, ALTURA/4)
     screen.blit(txtTitle, txt_rect)
@@ -207,7 +207,7 @@ def posmenu():
     screen.blit(pygame.transform.scale(sprite_pts,(30,30)), (120,291))
 
     font = pygame.font.Font("fonts/font.ttf", 18)
-    txtTitle = font.render("+"+str(BONUS_AMMO)+" munições", 1, BRANCO)
+    txtTitle = font.render("+"+str(BONUS_AMMO)+" muniï¿½ï¿½es", 1, BRANCO)
     txt_rect = txtTitle.get_rect()
     txt_rect.midtop = (LARGURA/2, 176)
     screen.blit(txtTitle, txt_rect)
@@ -289,10 +289,14 @@ def selecaoModo():
                         return 2
 
 def startAnimation(previousData, newData, chosenOnes):
+    global paused
+    global clock
+    global paused_ticks
+
     anim = animation(screen, previousData, newData, chosenOnes, enemiesSpritesList, sprite_ec, pygame)
     animationRunning = True
     while animationRunning:
-        pause_ticks = clock.tick()
+        paused_ticks += clock.tick()
 
         for event in pygame.event.get():
           if event.type == KEYDOWN:
@@ -304,7 +308,7 @@ def startAnimation(previousData, newData, chosenOnes):
                   listaCrom.append(enemiesData)
                   sair()
                 
-        anim.update(pygame, screen, pause_ticks)
+        anim.update(pygame, screen, paused_ticks)
         
 
 #Function for displaying game status
@@ -318,7 +322,7 @@ def status(gamemode,gene1,gene2,gene3,gene4,gene5):
     txtPontosPos = LARGURA2/2-txtPontos.get_width()/2,2
     screen.blit(txtPontos, txtPontosPos)
     font = pygame.font.Font("fonts/font.ttf", 18)
-    txtAmmo = font.render("Munição: "+str(ammo), 1, PRETO, BRANCO)
+    txtAmmo = font.render("Muniï¿½ï¿½o: "+str(ammo), 1, PRETO, BRANCO)
     txtAmmoPos = LARGURA2-txtAmmo.get_width(),2
     screen.blit(txtAmmo, txtAmmoPos)
     font = pygame.font.Font("fonts/font.ttf", 18)
@@ -514,11 +518,11 @@ while playagain:
   while (life>0) and (vitoria<5):
       #Calculates in ms how long it took since last call of clock.tick()
       time_passed = clock.tick()
-      
-      milissegundos = pygame.time.get_ticks()-start_ticks
-      segundos = ((pygame.time.get_ticks()-start_ticks)/1000)-60*i
+
+      milissegundos = pygame.time.get_ticks()-start_ticks-paused_ticks
+      segundos = ((pygame.time.get_ticks()-start_ticks-paused_ticks)/1000)-60*i
       segundoss = segundos+60*i
-      minutos = (pygame.time.get_ticks()-start_ticks)/60000
+      minutos = (pygame.time.get_ticks()-start_ticks-paused_ticks)/60000
       cont=0
       if segundos>59:
           i+=1
@@ -730,6 +734,8 @@ while playagain:
   i=0
   cont = 0
   pygame.time.set_timer(USEREVENT + 1,1000)
+  paused = False
+  paused_ticks = 0
   
   #Powerups
   ammoBox = ammobox(sprite_a)

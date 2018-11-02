@@ -99,7 +99,7 @@ class animation():
 
     def update(self, pygame, screen, pause_ticks):
         if self.timeCount < 20600:
-            self.timeCount += pause_ticks
+            self.timeCount = pause_ticks
 
         if self.timeCount >= 1500:
             self.animationPart = 1
