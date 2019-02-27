@@ -39,23 +39,23 @@ A Genetic Algorithm is a Machine Learning approach that is based on biological e
 Lets supose a population of creatures. These creatures have the goal to survive, the ones who survive can pass their genome to the next generation and so on. In order to "survive" there are several tasks that need to be performed, and the ones that perform them better, have better chances to be successfull.  
 The **Selection** method does exactly this. It evaluates how well an individual creature performed on its goal.
 
-On this game, the main goal for the enemies is to "live longer" (not be killed soon), cause damage to the player and steal items from the player. The **selection** method will then be responsible for selecting the enemies that will cross their chromossomes (on the **crossover** method) to create new enemies and will also live for the next round. The ones not selected are "killed" and do not pass their genes.  
+On this game, the main goal for the enemies is to "live longer" (not be killed soon), cause damage to the player and steal items from the player. The **selection** method will then be responsible for selecting the enemies that will cross their chromosomes (on the **crossover** method) to create new enemies and will also live for the next round. The ones not selected are "killed" and do not pass their genes.  
 The selection method used in this game is called "**Roulette wheel selection**".
 
 ### Crossover
-This is basically the part where two successfull creatures "copulate" to have "children" that carry their parents mixed caracteristics on their chromossomes.  
+This is basically the part where two successfull creatures "copulate" to have "children" that carry their parents mixed caracteristics on their chromosomes.  
 Genetic Algorithms have several approaches for this method and the selected one was "**Single-point crossover**"
 
 ### Mutation
 In biological evolution, mutations happen all the time and are responsible to create bad results or good results. Its thanks to mutation that we are no longer a single celled organism.  
-A Genetic Algorithm can sometimes reach what is called a "Local Optimal Result". This is basically finding a nice result but not the best. In order to avoid being stuck on this Local Optimal Result we must have a mutation rate. The mutation rate's job is to change a certain part of the chromossome randomly and this may cause a new caracteristic to happen, that can be very positive (or negative) to reach the goal to be selected.
+A Genetic Algorithm can sometimes reach what is called a "Local Optimal Result". This is basically finding a nice result but not the best. In order to avoid being stuck on this Local Optimal Result we must have a mutation rate. The mutation rate's job is to change a certain part of the chromosome randomly and this may cause a new caracteristic to happen, that can be very positive (or negative) to reach the goal to be selected.
 
 ## How it is represented ingame
 
-To understand where are the chromossomes and how they work, who was selected, how have their "children" become, its simple. Lets start on the chromossomes.
+To understand where are the chromosomes and how they work, who was selected, how have their "children" become, its simple. Lets start on the chromosomes.
 
-### Chomossomes
-A chromossome is represented as a list, like so:
+### Chromosome
+A chromosome is represented as a list, like so:
 
 ![](https://i.imgur.com/A7L2lUN.png)
 
@@ -74,7 +74,7 @@ Each index of the list represents a certain caracteristic that the enemy has:
 The enemies with best _fitness scores_ (a score that evaluates how well the enemy did) have better chances to pass its genome to the next round.
 
 ### Who was selected
-On the first round, all chromossomes are random. To know who was selected on the next round and so on, just look at the two last enemies on the list at the bottom of the screen and their children are the first two. The one on the middle is always random.
+On the first round, all chromosomes are random. To know who was selected on the next round and so on, just look at the two last enemies on the list at the bottom of the screen and their children are the first two. The one on the middle is always random.
 To visualize better, an animation happens each next level to show who was selected, how are their children and the new enemies' you will face next round.
 
 ![](https://i.imgur.com/5HkxQRJ.png)
