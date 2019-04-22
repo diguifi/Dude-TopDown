@@ -1,4 +1,10 @@
 # Adventures of Dude in the Top-Down world
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/31022286/56502606-4d62f800-64e9-11e9-93e9-2f6230433a9f.gif"/>
+</p>
+
+# [Download](https://github.com/diguifi/Dude-TopDown/releases)
+
 A game developed in Python, using PyGame, which purpose is to test out a genetic algorithm and compare it to a finite state machine.
 
 This project was conceived as a final paper on my computing science graduation at Instituto Federal de Educaçao, Ciencia e Tecnologia do Sul de Minas Gerais, Muzambinho (Brazil).
