@@ -43,9 +43,9 @@ relat=False
 def load_image(image_loaded,tipo):
         try:
             image = pygame.image.load(image_loaded)
-        except pygame.error, message:
-            print "Impossivel carregar imagem: " + image_loaded
-            raise SystemExit, message
+        except pygame.error as message:
+            print("Impossivel carregar imagem: " + image_loaded)
+            raise SystemExit(message)
         if tipo == "sprite":
                 x,y = pygame.Surface.get_width(image), pygame.Surface.get_height(image)
                 x=int(x*MULT_TAM)
@@ -520,9 +520,9 @@ while playagain:
       time_passed = clock.tick()
 
       milissegundos = pygame.time.get_ticks()-start_ticks-paused_ticks
-      segundos = ((pygame.time.get_ticks()-start_ticks-paused_ticks)/1000)-60*i
+      segundos = int(((pygame.time.get_ticks()-start_ticks-paused_ticks)/1000)-60*i)
       segundoss = segundos+60*i
-      minutos = (pygame.time.get_ticks()-start_ticks-paused_ticks)/60000
+      minutos = int((pygame.time.get_ticks()-start_ticks-paused_ticks)/60000)
       cont=0
       if segundos>59:
           i+=1

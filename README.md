@@ -17,16 +17,15 @@ Thanks for your support.
 
 # Setting up
 
-Python version 2.7
+Python version 3.7 or above
 To be able to execute the Game, must have the 'PyGame' Library, and then, execute the 'Game.py' file.
 
 - Installing PyGame:
     - Windows:
         - open the cmd (windows+r -> cmd)
-        - navigate to your 'Python' folder (usually at C:/Python27) and than to the 'Scripts' folder. (Ex - cd C:/Python27/Scripts)
-        - execute the command 'pip install pygame'
+        - execute the command 'python -m pip install pygame'
     - Linux:
-        - use your package manager to install 'pip' (Ex - 'sudo apt-get install pip')
+        - use your package manager to install 'pip' (Ex - 'sudo apt-get install python3-pip')
         - run 'pip install pygame'
 
 # Explanation

@@ -109,7 +109,7 @@ class enemy(pygame.sprite.Sprite):
     #Sets fitness score
     def setFitness(self,lifeP,pontosP):
         self.fitness = (self.pontos/25)+(self.segundos/2)+(self.life/15)
-        print self.fitness
+        print(self.fitness)
 
     #Sets attribute fitness
     def setFitnessValue(self,fit):
